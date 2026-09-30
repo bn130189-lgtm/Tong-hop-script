@@ -8,8 +8,6 @@ local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
 local DISCORD_LINK = "https://discord.gg/uqhEpzXy9q"
-
--- DÁN LINK RAW CỦA FILE SCRIPTS.JSON VÀO ĐÂY:
 local SCRIPT_LIST_URL = "https://raw.githubusercontent.com/bn130189-lgtm/Tong-hop-script/main/scripts.json"
 
 local MIN_SCALE, MAX_SCALE, DEFAULT_SCALE = 0.55, 1.15, 0.72
@@ -145,7 +143,7 @@ Layout.SortOrder = Enum.SortOrder.LayoutOrder
 local Padding = Instance.new("UIPadding", Content)
 Padding.PaddingBottom = UDim.new(0, 10)
 
-local function CreateScriptButton(Name, URL)
+local function CreateScriptButton(NameText, URL)
     local Button = Instance.new("TextButton", Content)
     Button.Size = UDim2.new(1, 0, 0, 72)
     Button.BackgroundColor3 = Color3.fromRGB(24, 25, 34)
@@ -172,10 +170,9 @@ local function CreateScriptButton(Name, URL)
 
     local ScriptName = Instance.new("TextLabel", Button)
     ScriptName.Size = UDim2.new(1, -125, 0, 27)
-Name.Position = UDim2.new(0, 72, 0, 9)
     ScriptName.Position = UDim2.new(0, 72, 0, 9)
     ScriptName.BackgroundTransparency = 1
-    ScriptName.Text = Name
+    ScriptName.Text = NameText
     ScriptName.TextColor3 = Color3.fromRGB(245, 245, 248)
     ScriptName.TextSize = 15
     ScriptName.Font = Enum.Font.GothamBold
@@ -232,7 +229,7 @@ Name.Position = UDim2.new(0, 72, 0, 9)
             Status.TextColor3 = Color3.fromRGB(255, 80, 90)
             Icon.Text = "!"
             Icon.TextColor3 = Color3.fromRGB(255, 80, 90)
-            warn("[Atras | GiaBình] " .. Name .. " : " .. tostring(Error))
+            warn("[Atras | GiaBình] " .. NameText .. " : " .. tostring(Error))
         end
     end)
 end
@@ -293,9 +290,9 @@ Floating.Size = UDim2.fromOffset(62, 62)
 Floating.Position = UDim2.new(0, 20, 0.5, -31)
 Floating.BackgroundColor3 = Color3.fromRGB(15, 16, 22)
 Floating.BorderSizePixel = 0
-Floating.Text = "2"
+Floating.Text = "⚡"
 Floating.TextColor3 = Color3.fromRGB(255, 55, 65)
-Floating.TextSize = 29
+Floating.TextSize = 25
 Floating.Font = Enum.Font.GothamBlack
 Floating.AutoButtonColor = false
 
