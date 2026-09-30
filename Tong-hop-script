@@ -2,11 +2,16 @@ local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
+local HttpService = game:GetService("HttpService")
 
 local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
 local DISCORD_LINK = "https://discord.gg/uqhEpzXy9q"
+
+-- DÁN LINK RAW CỦA FILE SCRIPTS.JSON VÀO ĐÂY:
+local SCRIPT_LIST_URL = "https://raw.githubusercontent.com/bn130189-lgtm/Tong-hop-script/main/scripts.json"
+
 local MIN_SCALE, MAX_SCALE, DEFAULT_SCALE = 0.55, 1.15, 0.72
 
 for _, name in ipairs({"AtrasGiaBinhV5", "AtrasIconV5"}) do
@@ -81,7 +86,7 @@ local SubTitle = Instance.new("TextLabel", Header)
 SubTitle.Size = UDim2.new(1, -150, 0, 20)
 SubTitle.Position = UDim2.new(0, 22, 0, 45)
 SubTitle.BackgroundTransparency = 1
-SubTitle.Text = "STEAL AN EGG  •  V5"
+SubTitle.Text = "STEAL AN EGG  •  AUTO SYNC"
 SubTitle.TextColor3 = Color3.fromRGB(125, 127, 140)
 SubTitle.TextSize = 10
 SubTitle.Font = Enum.Font.GothamMedium
@@ -118,15 +123,9 @@ Close.Font = Enum.Font.GothamBold
 Close.AutoButtonColor = false
 Instance.new("UICorner", Close).CornerRadius = UDim.new(0, 12)
 
-Close.MouseEnter:Connect(function()
-    TweenService:Create(Close, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(235, 45, 60)}):Play()
-end)
-Close.MouseLeave:Connect(function()
-    TweenService:Create(Close, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(190, 35, 45)}):Play()
-end)
 Close.MouseButton1Click:Connect(function() Main.Visible = false end)
 
--- ScrollingFrame trực tiếp cho tab Steal An Egg
+-- ScrollingFrame danh sách script
 local Content = Instance.new("ScrollingFrame", Main)
 Content.Name = "ScriptList"
 Content.Size = UDim2.new(1, -24, 1, -96)
@@ -146,7 +145,7 @@ Layout.SortOrder = Enum.SortOrder.LayoutOrder
 local Padding = Instance.new("UIPadding", Content)
 Padding.PaddingBottom = UDim.new(0, 10)
 
-local function AddScript(Name, URL)
+local function CreateScriptButton(Name, URL)
     local Button = Instance.new("TextButton", Content)
     Button.Size = UDim2.new(1, 0, 0, 72)
     Button.BackgroundColor3 = Color3.fromRGB(24, 25, 34)
@@ -173,6 +172,7 @@ local function AddScript(Name, URL)
 
     local ScriptName = Instance.new("TextLabel", Button)
     ScriptName.Size = UDim2.new(1, -125, 0, 27)
+Name.Position = UDim2.new(0, 72, 0, 9)
     ScriptName.Position = UDim2.new(0, 72, 0, 9)
     ScriptName.BackgroundTransparency = 1
     ScriptName.Text = Name
@@ -237,19 +237,32 @@ local function AddScript(Name, URL)
     end)
 end
 
--- Thêm các script Steal An Egg (bao gồm Realkidhub vừa yêu cầu)
-AddScript("Steal an egg vxeze | GetKey", "https://gist.githubusercontent.com/angeryy-tvy/6a9ce750ddf5860230196ac468868fdb/raw/Steal-An-Egg-Vxeze")
-AddScript("Lennon Farm V2", "https://raw.githubusercontent.com/lennonxscripts/lennonfarmv2/refs/heads/main/stealanegg")
-AddScript("Ajjans | NoKey", "https://api.luarmor.net/files/v4/loaders/36107afd3107e8d841f9d1a69e2465d4.lua")
-AddScript("Miranda | NoKey", "https://raw.githubusercontent.com/kadit9999/stealanegg/refs/heads/main/Miranda.lua")
-AddScript("Published.gg | NoKey", "https://raw.githubusercontent.com/PulseZax/Loader/refs/heads/main/.lua")
-AddScript("Chilli | NoKey", "https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua")
-AddScript("Zeroin | GetKey", "https://zeroinhub.com/api/script")
-AddScript("Limbo | NoKey", "https://limbohub.my.id/loader.lua")
-AddScript("Fyy | GetKey", "https://FyyCommunity.my.id")
-AddScript("Realkidhub | NoKey", "https://raw.githubusercontent.com/realkidhub/realkid/refs/heads/main/main.lua")
+-- Tự động tải danh sách script từ file scripts.json trên GitHub
+task.spawn(function()
+    local Success, Response = pcall(function()
+        return game:HttpGet(SCRIPT_LIST_URL)
+    end)
+    
+    if Success then
+        local DecodeSuccess, ScriptData = pcall(function()
+            return HttpService:JSONDecode(Response)
+        end)
+        
+        if DecodeSuccess and type(ScriptData) == "table" then
+            for _, item in ipairs(ScriptData) do
+                if item.Name and item.Url then
+                    CreateScriptButton(item.Name, item.Url)
+                end
+            end
+        else
+            warn("[Atras | GiaBình] Lỗi giải mã JSON danh sách script!")
+        end
+    else
+        warn("[Atras | GiaBình] Không thể kết nối tới server chứa danh sách script!")
+    end
+end)
 
--- Dragging Main
+-- Kéo thả Hub
 local Dragging, DragStart, StartPosition
 Header.InputBegan:Connect(function(Input)
     if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
@@ -265,7 +278,7 @@ UserInputService.InputChanged:Connect(function(Input)
     end
 end)
 
--- Floating Icon
+-- Icon nổi ẩn/hiện Hub
 local IconGui = Instance.new("ScreenGui")
 IconGui.Name = "AtrasIconV5"
 IconGui.ResetOnSpawn = false
@@ -312,7 +325,7 @@ UserInputService.InputChanged:Connect(function(Input)
     end
 end)
 
--- Resize Button
+-- Nút thu phóng (Resize)
 local Resize = Instance.new("TextButton", Main)
 Resize.Name = "Resize"
 Resize.Size = UDim2.fromOffset(34, 34)
