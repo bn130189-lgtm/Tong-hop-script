@@ -1,0 +1,357 @@
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+
+local Player = Players.LocalPlayer
+local PlayerGui = Player:WaitForChild("PlayerGui")
+
+local DISCORD_LINK = "https://discord.gg/uqhEpzXy9q"
+local MIN_SCALE, MAX_SCALE, DEFAULT_SCALE = 0.55, 1.15, 0.72
+
+for _, name in ipairs({"AtrasGiaBinhV5", "AtrasIconV5"}) do
+    local old = PlayerGui:FindFirstChild(name)
+    if old then old:Destroy() end
+end
+
+local function CopyDiscord()
+    local fn = setclipboard or toclipboard
+    return fn and pcall(fn, DISCORD_LINK)
+end
+
+-- ScreenGui Main
+local Gui = Instance.new("ScreenGui")
+Gui.Name = "AtrasGiaBinhV5"
+Gui.ResetOnSpawn = false
+Gui.IgnoreGuiInset = true
+Gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+Gui.DisplayOrder = 100
+Gui.Parent = PlayerGui
+
+local Main = Instance.new("Frame")
+Main.Name = "Main"
+Main.Size = UDim2.fromOffset(390, 430)
+Main.Position = UDim2.new(0.5, -195, 0.5, -215)
+Main.BackgroundColor3 = Color3.fromRGB(13, 14, 20)
+Main.BorderSizePixel = 0
+Main.ClipsDescendants = true
+Main.Active = true
+Main.Parent = Gui
+
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 20)
+local MainStroke = Instance.new("UIStroke", Main)
+MainStroke.Color = Color3.fromRGB(255, 45, 55)
+MainStroke.Transparency = 0.55
+MainStroke.Thickness = 1.5
+
+local UIScale = Instance.new("UIScale", Main)
+UIScale.Scale = DEFAULT_SCALE
+
+-- Header
+local Header = Instance.new("Frame", Main)
+Header.Size = UDim2.new(1, 0, 0, 82)
+Header.BackgroundColor3 = Color3.fromRGB(22, 23, 31)
+Header.BorderSizePixel = 0
+
+Instance.new("UICorner", Header).CornerRadius = UDim.new(0, 20)
+
+local HeaderBottom = Instance.new("Frame", Header)
+HeaderBottom.Size = UDim2.new(1, 0, 0, 25)
+HeaderBottom.Position = UDim2.new(0, 0, 1, -25)
+HeaderBottom.BackgroundColor3 = Header.BackgroundColor3
+HeaderBottom.BorderSizePixel = 0
+
+local Accent = Instance.new("Frame", Header)
+Accent.Size = UDim2.new(1, -30, 0, 2)
+Accent.Position = UDim2.new(0, 15, 1, -2)
+Accent.BackgroundColor3 = Color3.fromRGB(255, 45, 55)
+Accent.BorderSizePixel = 0
+
+local Title = Instance.new("TextLabel", Header)
+Title.Size = UDim2.new(1, -145, 0, 32)
+Title.Position = UDim2.new(0, 20, 0, 10)
+Title.BackgroundTransparency = 1
+Title.Text = "⚡  Atras | GiaBình"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 21
+Title.Font = Enum.Font.GothamBold
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+local SubTitle = Instance.new("TextLabel", Header)
+SubTitle.Size = UDim2.new(1, -150, 0, 20)
+SubTitle.Position = UDim2.new(0, 22, 0, 45)
+SubTitle.BackgroundTransparency = 1
+SubTitle.Text = "STEAL AN EGG  •  V5"
+SubTitle.TextColor3 = Color3.fromRGB(125, 127, 140)
+SubTitle.TextSize = 10
+SubTitle.Font = Enum.Font.GothamMedium
+SubTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+local Discord = Instance.new("TextButton", Header)
+Discord.Size = UDim2.fromOffset(40, 40)
+Discord.Position = UDim2.new(1, -100, 0, 18)
+Discord.BackgroundColor3 = Color3.fromRGB(80, 35, 45)
+Discord.Text = "D"
+Discord.TextColor3 = Color3.fromRGB(255, 255, 255)
+Discord.TextSize = 16
+Discord.Font = Enum.Font.GothamBold
+Discord.AutoButtonColor = false
+Instance.new("UICorner", Discord).CornerRadius = UDim.new(0, 12)
+
+Discord.MouseButton1Click:Connect(function()
+    if CopyDiscord() then
+        Discord.Text = "✓"
+        task.delay(1.2, function()
+            if Discord and Discord.Parent then Discord.Text = "D" end
+        end)
+    end
+end)
+
+local Close = Instance.new("TextButton", Header)
+Close.Size = UDim2.fromOffset(40, 40)
+Close.Position = UDim2.new(1, -52, 0, 18)
+Close.BackgroundColor3 = Color3.fromRGB(190, 35, 45)
+Close.Text = "×"
+Close.TextColor3 = Color3.fromRGB(255, 255, 255)
+Close.TextSize = 25
+Close.Font = Enum.Font.GothamBold
+Close.AutoButtonColor = false
+Instance.new("UICorner", Close).CornerRadius = UDim.new(0, 12)
+
+Close.MouseEnter:Connect(function()
+    TweenService:Create(Close, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(235, 45, 60)}):Play()
+end)
+Close.MouseLeave:Connect(function()
+    TweenService:Create(Close, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(190, 35, 45)}):Play()
+end)
+Close.MouseButton1Click:Connect(function() Main.Visible = false end)
+
+-- ScrollingFrame trực tiếp cho tab Steal An Egg (Không cần thanh tab thừa nếu chưa có script game khác)
+local Content = Instance.new("ScrollingFrame", Main)
+Content.Name = "ScriptList"
+Content.Size = UDim2.new(1, -24, 1, -96)
+Content.Position = UDim2.new(0, 12, 0, 91)
+Content.BackgroundTransparency = 1
+Content.BorderSizePixel = 0
+Content.ScrollBarThickness = 3
+Content.ScrollBarImageColor3 = Color3.fromRGB(255, 45, 55)
+Content.AutomaticCanvasSize = Enum.AutomaticSize.Y
+Content.CanvasSize = UDim2.new()
+
+local Layout = Instance.new("UIListLayout", Content)
+Layout.Padding = UDim.new(0, 10)
+Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+Layout.SortOrder = Enum.SortOrder.LayoutOrder
+
+local Padding = Instance.new("UIPadding", Content)
+Padding.PaddingBottom = UDim.new(0, 10)
+
+local function AddScript(Name, URL)
+    local Button = Instance.new("TextButton", Content)
+    Button.Size = UDim2.new(1, 0, 0, 72)
+    Button.BackgroundColor3 = Color3.fromRGB(24, 25, 34)
+    Button.BorderSizePixel = 0
+    Button.Text = ""
+    Button.AutoButtonColor = false
+
+    Instance.new("UICorner", Button).CornerRadius = UDim.new(0, 15)
+    
+    local Stroke = Instance.new("UIStroke", Button)
+    Stroke.Color = Color3.fromRGB(48, 50, 64)
+    Stroke.Thickness = 1
+    Stroke.Transparency = 0.1
+
+    local Icon = Instance.new("TextLabel", Button)
+    Icon.Size = UDim2.fromOffset(50, 50)
+    Icon.Position = UDim2.new(0, 10, 0.5, -25)
+    Icon.BackgroundColor3 = Color3.fromRGB(45, 25, 30)
+    Icon.Text = "▶"
+    Icon.TextColor3 = Color3.fromRGB(255, 55, 65)
+    Icon.TextSize = 15
+    Icon.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", Icon).CornerRadius = UDim.new(0, 13)
+
+    local ScriptName = Instance.new("TextLabel", Button)
+    ScriptName.Size = UDim2.new(1, -125, 0, 27)
+    ScriptName.Position = UDim2.new(0, 72, 0, 9)
+    ScriptName.BackgroundTransparency = 1
+    ScriptName.Text = Name
+    ScriptName.TextColor3 = Color3.fromRGB(245, 245, 248)
+    ScriptName.TextSize = 15
+    ScriptName.Font = Enum.Font.GothamBold
+    ScriptName.TextXAlignment = Enum.TextXAlignment.Left
+    ScriptName.TextTruncate = Enum.TextTruncate.AtEnd
+
+    local Status = Instance.new("TextLabel", Button)
+    Status.Size = UDim2.new(1, -125, 0, 19)
+    Status.Position = UDim2.new(0, 72, 0, 39)
+    Status.BackgroundTransparency = 1
+    Status.Text = "Click to execute"
+    Status.TextColor3 = Color3.fromRGB(125, 127, 140)
+    Status.TextSize = 10
+    Status.Font = Enum.Font.GothamMedium
+    Status.TextXAlignment = Enum.TextXAlignment.Left
+
+    local Arrow = Instance.new("TextLabel", Button)
+    Arrow.Size = UDim2.fromOffset(30, 35)
+    Arrow.Position = UDim2.new(1, -42, 0.5, -18)
+    Arrow.BackgroundTransparency = 1
+    Arrow.Text = "›"
+    Arrow.TextColor3 = Color3.fromRGB(130, 133, 150)
+    Arrow.TextSize = 28
+    Arrow.Font = Enum.Font.GothamBold
+
+    Button.MouseEnter:Connect(function()
+        TweenService:Create(Button, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(42, 25, 32)}):Play()
+        TweenService:Create(Stroke, TweenInfo.new(0.15), {Color = Color3.fromRGB(255, 55, 65), Transparency = 0}):Play()
+        TweenService:Create(Arrow, TweenInfo.new(0.15), {TextColor3 = Color3.fromRGB(255, 55, 65)}):Play()
+    end)
+
+    Button.MouseLeave:Connect(function()
+        TweenService:Create(Button, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(24, 25, 34)}):Play()
+        TweenService:Create(Stroke, TweenInfo.new(0.15), {Color = Color3.fromRGB(48, 50, 64), Transparency = 0.1}):Play()
+        TweenService:Create(Arrow, TweenInfo.new(0.15), {TextColor3 = Color3.fromRGB(130, 133, 150)}):Play()
+    end)
+
+    Button.MouseButton1Click:Connect(function()
+        Status.Text = "Loading..."
+        Status.TextColor3 = Color3.fromRGB(255, 80, 90)
+        Icon.Text = "..."
+        Icon.TextColor3 = Color3.fromRGB(255, 80, 90)
+
+        local Success, Error = pcall(function() loadstring(game:HttpGet(URL))() end)
+        if Success then
+            Status.Text = "✓ Successfully loaded"
+            Status.TextColor3 = Color3.fromRGB(70, 225, 130)
+            Icon.Text = "✓"
+            Icon.TextColor3 = Color3.fromRGB(70, 225, 130)
+            Stroke.Color = Color3.fromRGB(70, 185, 110)
+            task.spawn(CopyDiscord)
+        else
+            Status.Text = "✕ Failed to load"
+            Status.TextColor3 = Color3.fromRGB(255, 80, 90)
+            Icon.Text = "!"
+            Icon.TextColor3 = Color3.fromRGB(255, 80, 90)
+            warn("[Atras | GiaBình] " .. Name .. " : " .. tostring(Error))
+        end
+    end)
+end
+
+-- Thêm các script Steal An Egg
+AddScript("Steal an egg vxeze | GetKey", "https://gist.githubusercontent.com/angeryy-tvy/6a9ce750ddf5860230196ac468868fdb/raw/Steal-An-Egg-Vxeze")
+AddScript("Lennon Farm V2", "https://raw.githubusercontent.com/lennonxscripts/lennonfarmv2/refs/heads/main/stealanegg")
+AddScript("Ajjans | NoKey", "https://api.luarmor.net/files/v4/loaders/36107afd3107e8d841f9d1a69e2465d4.lua")
+AddScript("Miranda | NoKey", "https://raw.githubusercontent.com/kadit9999/stealanegg/refs/heads/main/Miranda.lua")
+AddScript("Published.gg | NoKey", "https://raw.githubusercontent.com/PulseZax/Loader/refs/heads/main/.lua")
+AddScript("Chilli | NoKey", "https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua")
+AddScript("Zeroin | GetKey", "https://zeroinhub.com/api/script")
+AddScript("Limbo | NoKey", "https://limbohub.my.id/loader.lua")
+AddScript("Fyy | GetKey", "https://FyyCommunity.my.id")
+
+-- Dragging Main
+local Dragging, DragStart, StartPosition
+Header.InputBegan:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        Dragging, DragStart, StartPosition = true, Input.Position, Main.Position
+        Input.Changed:Connect(function() if Input.UserInputState == Enum.UserInputState.End then Dragging = false end end)
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(Input)
+    if Dragging and (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) then
+        local Delta = Input.Position - DragStart
+        Main.Position = UDim2.new(StartPosition.X.Scale, StartPosition.X.Offset + Delta.X, StartPosition.Y.Scale, StartPosition.Y.Offset + Delta.Y)
+    end
+end)
+
+-- Floating Icon
+local IconGui = Instance.new("ScreenGui")
+IconGui.Name = "AtrasIconV5"
+IconGui.ResetOnSpawn = false
+IconGui.IgnoreGuiInset = true
+IconGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+IconGui.DisplayOrder = 9999
+IconGui.Parent = PlayerGui
+
+local Floating = Instance.new("TextButton", IconGui)
+Floating.Name = "AtrasIcon"
+Floating.Size = UDim2.fromOffset(62, 62)
+Floating.Position = UDim2.new(0, 20, 0.5, -31)
+Floating.BackgroundColor3 = Color3.fromRGB(15, 16, 22)
+Floating.BorderSizePixel = 0
+Floating.Text = "2"
+Floating.TextColor3 = Color3.fromRGB(255, 55, 65)
+Floating.TextSize = 29
+Floating.Font = Enum.Font.GothamBlack
+Floating.AutoButtonColor = false
+
+Instance.new("UICorner", Floating).CornerRadius = UDim.new(1, 0)
+local FloatStroke = Instance.new("UIStroke", Floating)
+FloatStroke.Color = Color3.fromRGB(255, 55, 65)
+FloatStroke.Thickness = 2
+
+local IconDragging, IconStart, IconStartPos, IconMoved = false, nil, nil, 0
+Floating.InputBegan:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        IconDragging, IconMoved, IconStart, IconStartPos = true, 0, Input.Position, Floating.Position
+        Input.Changed:Connect(function()
+            if Input.UserInputState == Enum.UserInputState.End then
+                IconDragging = false
+                if IconMoved < 10 then Main.Visible = not Main.Visible end
+            end
+        end)
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(Input)
+    if IconDragging and (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) then
+        local Delta = Input.Position - IconStart
+        IconMoved = math.abs(Delta.X) + math.abs(Delta.Y)
+        Floating.Position = UDim2.new(IconStartPos.X.Scale, IconStartPos.X.Offset + Delta.X, IconStartPos.Y.Scale, IconStartPos.Y.Offset + Delta.Y)
+    end
+end)
+
+-- Resize Button
+local Resize = Instance.new("TextButton", Main)
+Resize.Name = "Resize"
+Resize.Size = UDim2.fromOffset(34, 34)
+Resize.Position = UDim2.new(1, -38, 1, -38)
+Resize.BackgroundColor3 = Color3.fromRGB(37, 25, 30)
+Resize.Text = "↘"
+Resize.TextColor3 = Color3.fromRGB(170, 173, 190)
+Resize.TextSize = 18
+Resize.Font = Enum.Font.GothamBold
+Resize.AutoButtonColor = false
+Resize.ZIndex = 50
+
+Instance.new("UICorner", Resize).CornerRadius = UDim.new(0, 10)
+
+local Resizing, ResizeStart, ResizeStartScale, ResizeTarget = false, nil, DEFAULT_SCALE, DEFAULT_SCALE
+Resize.InputBegan:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        Resizing, ResizeStart, ResizeStartScale, ResizeTarget = true, Input.Position, UIScale.Scale, UIScale.Scale
+        Input.Changed:Connect(function() if Input.UserInputState == Enum.UserInputState.End then Resizing = false end end)
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(Input)
+    if Resizing and (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) then
+        local Delta = Input.Position - ResizeStart
+        ResizeTarget = math.clamp(ResizeStartScale + ((Delta.X + Delta.Y) / 900), MIN_SCALE, MAX_SCALE)
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+    if math.abs(UIScale.Scale - ResizeTarget) > 0.001 then
+        UIScale.Scale = UIScale.Scale + (ResizeTarget - UIScale.Scale) * 0.22
+    end
+end)
+
+Resize.MouseEnter:Connect(function()
+    TweenService:Create(Resize, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(65, 30, 38), TextColor3 = Color3.fromRGB(255, 55, 65)}):Play()
+end)
+Resize.MouseLeave:Connect(function()
+    TweenService:Create(Resize, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(37, 25, 30), TextColor3 = Color3.fromRGB(170, 173, 190)}):Play()
+end)
+
+task.spawn(CopyDiscord)
