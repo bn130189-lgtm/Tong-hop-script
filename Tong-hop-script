@@ -126,7 +126,7 @@ Close.MouseLeave:Connect(function()
 end)
 Close.MouseButton1Click:Connect(function() Main.Visible = false end)
 
--- ScrollingFrame trực tiếp cho tab Steal An Egg (Không cần thanh tab thừa nếu chưa có script game khác)
+-- ScrollingFrame trực tiếp cho tab Steal An Egg
 local Content = Instance.new("ScrollingFrame", Main)
 Content.Name = "ScriptList"
 Content.Size = UDim2.new(1, -24, 1, -96)
@@ -237,7 +237,7 @@ local function AddScript(Name, URL)
     end)
 end
 
--- Thêm các script Steal An Egg
+-- Thêm các script Steal An Egg (bao gồm Realkidhub vừa yêu cầu)
 AddScript("Steal an egg vxeze | GetKey", "https://gist.githubusercontent.com/angeryy-tvy/6a9ce750ddf5860230196ac468868fdb/raw/Steal-An-Egg-Vxeze")
 AddScript("Lennon Farm V2", "https://raw.githubusercontent.com/lennonxscripts/lennonfarmv2/refs/heads/main/stealanegg")
 AddScript("Ajjans | NoKey", "https://api.luarmor.net/files/v4/loaders/36107afd3107e8d841f9d1a69e2465d4.lua")
@@ -247,6 +247,7 @@ AddScript("Chilli | NoKey", "https://raw.githubusercontent.com/tienkhanh1/spicy/
 AddScript("Zeroin | GetKey", "https://zeroinhub.com/api/script")
 AddScript("Limbo | NoKey", "https://limbohub.my.id/loader.lua")
 AddScript("Fyy | GetKey", "https://FyyCommunity.my.id")
+AddScript("Realkidhub | NoKey", "https://raw.githubusercontent.com/realkidhub/realkid/refs/heads/main/main.lua")
 
 -- Dragging Main
 local Dragging, DragStart, StartPosition
