@@ -10,6 +10,14 @@ local PlayerGui = Player:WaitForChild("PlayerGui")
 local DISCORD_LINK = "https://discord.gg/uqhEpzXy9q"
 local SCRIPT_LIST_URL = "https://raw.githubusercontent.com/bn130189-lgtm/Test/main/script.json"
 
+local function CopyDiscord()
+    local fn = setclipboard or toclipboard
+    return fn and pcall(fn, DISCORD_LINK)
+end
+
+-- Tự động copy link Discord ngay khi vừa bật script
+task.spawn(CopyDiscord)
+
 local successThumbnail, playerAvatarUrl = pcall(function()
     return Players:GetUserThumbnailAsync(Player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
 end)
@@ -20,11 +28,6 @@ local MIN_SCALE, MAX_SCALE, DEFAULT_SCALE = 0.55, 1.15, 0.75
 for _, name in ipairs({"AtrasGiaBinhSidebarV5", "AtrasIconSidebarV5"}) do
     local old = PlayerGui:FindFirstChild(name)
     if old then old:Destroy() end
-end
-
-local function CopyDiscord()
-    local fn = setclipboard or toclipboard
-    return fn and pcall(fn, DISCORD_LINK)
 end
 
 local CurrentThemeColor = Color3.fromRGB(140, 100, 255)
@@ -136,7 +139,6 @@ MenuList.CanvasSize = UDim2.new()
 local MenuLayout = Instance.new("UIListLayout", MenuList)
 MenuLayout.Padding = UDim.new(0, 6)
 MenuLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-
 local PagesContainer = Instance.new("Frame", Main)
 PagesContainer.Size = UDim2.new(1, -200, 1, -38)
 PagesContainer.Position = UDim2.new(0, 200, 0, 38)
@@ -204,6 +206,7 @@ local function CreateScriptPage()
 
     return Page, ScriptScroll, AllScriptButtons
 end
+
 local StealPage, StealScroll, StealItems = CreateScriptPage()
 local BloxFruitPage, BloxFruitScroll, BloxFruitItems = CreateScriptPage()
 local MM2Page, MM2Scroll, MM2Items = CreateScriptPage()
@@ -290,6 +293,7 @@ task.spawn(function()
         end
     end
 end)
+
 local MenuButtons = {}
 local function CreateMenuButton(Text, IsActive, OnClick)
     local Btn = Instance.new("TextButton", MenuList)
@@ -347,7 +351,6 @@ CreateMenuButton("Ride a pets", false, function()
     MM2Page.Visible = false
     RidePetsPage.Visible = true
 end)
-
 local ResizeBtn = Instance.new("TextButton", Main)
 ResizeBtn.Name = "Resize"
 ResizeBtn.Size = UDim2.fromOffset(26, 26)
