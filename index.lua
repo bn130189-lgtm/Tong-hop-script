@@ -8,7 +8,7 @@ local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
 local DISCORD_LINK = "https://discord.gg/uqhEpzXy9q"
-local SCRIPT_LIST_URL = "https://raw.githubusercontent.com/bn130189-lgtm/Test/main/script.json"
+local SCRIPT_LIST_URL = "https://raw.githubusercontent.com/bn130189-lgtm/Tong-hop-script/main/script.json"
 
 local function CopyDiscord()
     local fn = setclipboard or toclipboard
