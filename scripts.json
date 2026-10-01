@@ -10,7 +10,7 @@
     },
     {
       "Name": "Chilli",
-      "Url": "https://raw.githubusercontent.com/tienkhanhl/spicy/main/Chilli.lua"
+      "Url": "https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"
     },
     {
       "Name": "Lennon Hub",
@@ -39,6 +39,14 @@
     {
       "Name": "Limbo Hub",
       "Url": "https://limbohub.my.id/loader.lua"
+    },
+    {
+      "Name": "Yokudo",
+      "Url": "https://raw.githubusercontent.com/ahchlon/stealanegg/refs/heads/main/Loader.lua"
+    },
+    {
+      "Name": "Hop sever",
+      "Url": "https://raw.githubusercontent.com/bn130189-lgtm/Script-hop-sever-/main/script.lua"
     }
   ],
   "Ride a pets": [
