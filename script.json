@@ -47,6 +47,10 @@
     {
       "Name": "Hop sever",
       "Url": "https://raw.githubusercontent.com/bn130189-lgtm/Script-hop-sever-/main/script.lua"
+    },
+    {
+      "Name": "LKZ hub",
+      "Url": "https://raw.githubusercontent.com/LucasggkX/LKZ-Hub/refs/heads/main/Loader.lua"
     }
   ],
   "Ride a pets": [
@@ -89,6 +93,10 @@
     {
       "Name": "Bleh",
       "Url": "https://raw.githubusercontent.com/BlehHub/blehhh/refs/heads/main/lol"
+    },
+    {
+      "Name": "Mario hub",
+      "Url": "https://raw.githubusercontent.com/xDTaraZz/Roblox-Scripts/refs/heads/main/loader.lua"
     }
   ],
   "Blox Fruit": [
@@ -107,6 +115,10 @@
     {
       "Name": "Db hub",
       "Url": "https://raw.githubusercontent.com/bloxfruitsnokey/Banana/refs/heads/main/DB/script.luau"
+    },
+    {
+      "Name": "Ducz hub",
+      "Url": "https://raw.githubusercontent.com/duczsitink/DUCKHUB/refs/heads/main/main.lua"
     }
   ],
   "MM2": [
