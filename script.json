@@ -9,10 +9,6 @@
       "Url": "https://raw.githubusercontent.com/realkidhub/realkid/refs/heads/main/main.lua"
     },
     {
-      "Name": "Chilli",
-      "Url": "https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"
-    },
-    {
       "Name": "Lennon Hub",
       "Url": "https://raw.githubusercontent.com/lennonxscripts/lennonfarmv2/refs/heads/main/stealanegg"
     },
@@ -51,6 +47,26 @@
     {
       "Name": "LKZ hub",
       "Url": "https://raw.githubusercontent.com/LucasggkX/LKZ-Hub/refs/heads/main/Loader.lua"
+    },
+    {
+      "Name": "night",
+      "Url": "https://raw.githubusercontent.com/WhiteX1208/Scripts/refs/heads/main/StealAnEggs.luau"
+    },
+    {
+      "Name": "virex",
+      "Url": "https://cdn.luaprotect.dev/u/d54728/opayBjBoTOupFlth"
+    },
+    {
+      "Name": "simple shader",
+      "Url": "https://raw.githubusercontent.com/robloxscripts2026/simple-shader/refs/heads/main/lua"
+    },
+    {
+      "Name": "sources hub",
+      "Url": "https://gist.githubusercontent.com/sourceshubs/1737c14cdba5c6fb472a995d555a50f1/raw/SourcesHubInstantStealNew"
+    },
+    {
+      "Name": "chilli v3",
+      "Url": "https://apexhubeditor.vercel.app/api/raw?name=6bzPiAYUA0ekyyvhOhxpPobkK643_chilli-hub-vit-ho-v3"
     }
   ],
   "Ride a pets": [
@@ -81,10 +97,6 @@
     {
       "Name": "Roxy hub",
       "Url": "https://rawscripts.net/raw/Ride-A-Pet-RoxyHub-Ride-A-p_et-Auto-farmAuto-RebirthMore-No-key-228621"
-    },
-    {
-      "Name": "Chilli",
-      "Url": "https://raw.githubusercontent.com/tienkhanh1/spicy/main/Chilli.lua"
     },
     {
       "Name": "Yanz hub",
