@@ -15,7 +15,6 @@ local function CopyDiscord()
     return fn and pcall(fn, DISCORD_LINK)
 end
 
--- Tự động copy link Discord ngay khi vừa bật script
 task.spawn(CopyDiscord)
 
 local successThumbnail, playerAvatarUrl = pcall(function()
@@ -30,7 +29,8 @@ for _, name in ipairs({"AtrasGiaBinhSidebarV5", "AtrasIconSidebarV5"}) do
     if old then old:Destroy() end
 end
 
-local CurrentThemeColor = Color3.fromRGB(140, 100, 255)
+-- Đổi sang tone màu đỏ nhạc (Crimson Red)
+local CurrentThemeColor = Color3.fromRGB(210, 50, 65)
 
 local Gui = Instance.new("ScreenGui")
 Gui.Name = "AtrasGiaBinhSidebarV5"
@@ -40,10 +40,11 @@ Gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Gui.DisplayOrder = 100
 Gui.Parent = PlayerGui
 
+-- Phóng to khung chính rộng và dài hơn
 local Main = Instance.new("Frame")
 Main.Name = "Main"
-Main.Size = UDim2.fromOffset(640, 380)
-Main.Position = UDim2.new(0.5, -320, 0.5, -190)
+Main.Size = UDim2.fromOffset(720, 440)
+Main.Position = UDim2.new(0.5, -360, 0.5, -220)
 Main.BackgroundColor3 = Color3.fromRGB(18, 19, 26)
 Main.BorderSizePixel = 0
 Main.ClipsDescendants = true
@@ -52,50 +53,54 @@ Main.Parent = Gui
 
 Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 16)
 local MainStroke = Instance.new("UIStroke", Main)
-MainStroke.Color = Color3.fromRGB(55, 58, 75)
+MainStroke.Color = Color3.fromRGB(65, 30, 35)
 MainStroke.Thickness = 1.4
 
 local UIScale = Instance.new("UIScale", Main)
 UIScale.Scale = DEFAULT_SCALE
 
 local TopBar = Instance.new("Frame", Main)
-TopBar.Size = UDim2.new(1, 0, 0, 38)
+TopBar.Size = UDim2.new(1, 0, 0, 42)
 TopBar.BackgroundColor3 = Color3.fromRGB(13, 14, 20)
 TopBar.BorderSizePixel = 0
 
 local HubTitle = Instance.new("TextLabel", TopBar)
 HubTitle.Size = UDim2.new(1, -60, 1, 0)
-HubTitle.Position = UDim2.new(0, 16, 0, 0)
+HubTitle.Position = UDim2.new(0, 18, 0, 0)
 HubTitle.BackgroundTransparency = 1
-HubTitle.Text = "Atras | GiaBìnhHub v1.0"
-HubTitle.TextColor3 = Color3.fromRGB(220, 223, 240)
-HubTitle.TextSize = 13
+HubTitle.Text = "Atras | GiaBình v2.0"
+HubTitle.TextColor3 = Color3.fromRGB(240, 220, 220)
+HubTitle.TextSize = 15
 HubTitle.Font = Enum.Font.GothamBold
 HubTitle.TextXAlignment = Enum.TextXAlignment.Left
 
+-- Nút X tắt toàn bộ giao diện
 local CloseBtn = Instance.new("TextButton", TopBar)
-CloseBtn.Size = UDim2.fromOffset(32, 32)
-CloseBtn.Position = UDim2.new(1, -34, 0, 3)
+CloseBtn.Size = UDim2.fromOffset(36, 36)
+CloseBtn.Position = UDim2.new(1, -38, 0, 3)
 CloseBtn.BackgroundTransparency = 1
 CloseBtn.Text = "×"
-CloseBtn.TextColor3 = Color3.fromRGB(220, 223, 240)
-CloseBtn.TextSize = 22
+CloseBtn.TextColor3 = Color3.fromRGB(240, 220, 220)
+CloseBtn.TextSize = 24
 CloseBtn.Font = Enum.Font.GothamBold
 
 CloseBtn.MouseButton1Click:Connect(function()
-    Main.Visible = false
+    Gui:Destroy()
+    if PlayerGui:FindFirstChild("AtrasIconSidebarV5") then
+        PlayerGui.AtrasIconSidebarV5:Destroy()
+    end
 end)
 
 local Sidebar = Instance.new("Frame", Main)
-Sidebar.Size = UDim2.new(0, 200, 1, -38)
-Sidebar.Position = UDim2.new(0, 0, 0, 38)
+Sidebar.Size = UDim2.new(0, 210, 1, -42)
+Sidebar.Position = UDim2.new(0, 0, 0, 42)
 Sidebar.BackgroundColor3 = Color3.fromRGB(22, 23, 31)
 Sidebar.BorderSizePixel = 0
 Sidebar.ClipsDescendants = true
 
 local UserBox = Instance.new("Frame", Sidebar)
 UserBox.Size = UDim2.new(1, -16, 0, 52)
-UserBox.Position = UDim2.new(0, 8, 0, 10)
+UserBox.Position = UDim2.new(0, 8, 0, 12)
 UserBox.BackgroundColor3 = Color3.fromRGB(15, 16, 22)
 Instance.new("UICorner", UserBox).CornerRadius = UDim.new(0, 12)
 
@@ -122,14 +127,14 @@ UserRole.Size = UDim2.new(1, -52, 0, 16)
 UserRole.Position = UDim2.new(0, 50, 0, 28)
 UserRole.BackgroundTransparency = 1
 UserRole.Text = "Atras User"
-UserRole.TextColor3 = Color3.fromRGB(130, 245, 135)
+UserRole.TextColor3 = Color3.fromRGB(245, 130, 130)
 UserRole.TextSize = 11
 UserRole.Font = Enum.Font.GothamBold
 UserRole.TextXAlignment = Enum.TextXAlignment.Left
 
 local MenuList = Instance.new("ScrollingFrame", Sidebar)
-MenuList.Size = UDim2.new(1, 0, 1, -72)
-MenuList.Position = UDim2.new(0, 0, 0, 70)
+MenuList.Size = UDim2.new(1, 0, 1, -76)
+MenuList.Position = UDim2.new(0, 0, 0, 74)
 MenuList.BackgroundTransparency = 1
 MenuList.BorderSizePixel = 0
 MenuList.ScrollBarThickness = 0
@@ -139,9 +144,10 @@ MenuList.CanvasSize = UDim2.new()
 local MenuLayout = Instance.new("UIListLayout", MenuList)
 MenuLayout.Padding = UDim.new(0, 6)
 MenuLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
 local PagesContainer = Instance.new("Frame", Main)
-PagesContainer.Size = UDim2.new(1, -200, 1, -38)
-PagesContainer.Position = UDim2.new(0, 200, 0, 38)
+PagesContainer.Size = UDim2.new(1, -210, 1, -42)
+PagesContainer.Position = UDim2.new(0, 210, 0, 42)
 PagesContainer.BackgroundTransparency = 1
 PagesContainer.ClipsDescendants = true
 
@@ -152,8 +158,8 @@ local function CreateScriptPage()
     Page.Visible = false
 
     local SearchBox = Instance.new("TextBox", Page)
-    SearchBox.Size = UDim2.new(1, -24, 0, 36)
-    SearchBox.Position = UDim2.new(0, 12, 0, 14)
+    SearchBox.Size = UDim2.new(1, -28, 0, 38)
+    SearchBox.Position = UDim2.new(0, 14, 0, 14)
     SearchBox.BackgroundColor3 = Color3.fromRGB(14, 15, 21)
     SearchBox.PlaceholderText = "Search scripts..."
     SearchBox.PlaceholderColor3 = Color3.fromRGB(130, 135, 155)
@@ -168,18 +174,18 @@ local function CreateScriptPage()
     SearchPadding.PaddingLeft = UDim.new(0, 14)
 
     local StatusBadge = Instance.new("TextLabel", Page)
-    StatusBadge.Size = UDim2.new(1, -24, 0, 18)
-    StatusBadge.Position = UDim2.new(0, 12, 0, 56)
+    StatusBadge.Size = UDim2.new(1, -28, 0, 18)
+    StatusBadge.Position = UDim2.new(0, 14, 0, 58)
     StatusBadge.BackgroundTransparency = 1
-    StatusBadge.Text = "🟢 NO KEY REQUIRED / MULTI-SCRIPTS"
-    StatusBadge.TextColor3 = Color3.fromRGB(130, 245, 135)
+    StatusBadge.Text = "🔴 NO KEY REQUIRED / MULTI-SCRIPTS"
+    StatusBadge.TextColor3 = Color3.fromRGB(245, 130, 130)
     StatusBadge.TextSize = 11
     StatusBadge.Font = Enum.Font.GothamBold
     StatusBadge.TextXAlignment = Enum.TextXAlignment.Left
 
     local ScriptScroll = Instance.new("ScrollingFrame", Page)
-    ScriptScroll.Size = UDim2.new(1, -16, 1, -86)
-    ScriptScroll.Position = UDim2.new(0, 12, 0, 78)
+    ScriptScroll.Size = UDim2.new(1, -18, 1, -88)
+    ScriptScroll.Position = UDim2.new(0, 14, 0, 80)
     ScriptScroll.BackgroundTransparency = 1
     ScriptScroll.BorderSizePixel = 0
     ScriptScroll.ScrollBarThickness = 3
@@ -219,7 +225,7 @@ local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
     for _, item in ipairs(ListData) do
         if item.Name and item.Url then
             local Btn = Instance.new("TextButton", ScrollFrame)
-            Btn.Size = UDim2.new(1, -8, 0, 42)
+            Btn.Size = UDim2.new(1, -8, 0, 44)
             Btn.BackgroundColor3 = Color3.fromRGB(24, 25, 34)
             Btn.Text = ""
             Btn.AutoButtonColor = false
@@ -246,7 +252,7 @@ local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
             PlayIcon.Font = Enum.Font.GothamBold
 
             Btn.MouseEnter:Connect(function()
-                TweenService:Create(Btn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(38, 40, 55)}):Play()
+                TweenService:Create(Btn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(45, 28, 32)}):Play()
                 PlayIcon.TextColor3 = CurrentThemeColor
             end)
             Btn.MouseLeave:Connect(function()
@@ -260,7 +266,7 @@ local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
                 local Success, Error = pcall(function() loadstring(game:HttpGet(item.Url))() end)
                 if Success then
                     NameLabel.Text = "✓ Loaded: " .. item.Name
-                    NameLabel.TextColor3 = Color3.fromRGB(130, 245, 135)
+                    NameLabel.TextColor3 = Color3.fromRGB(245, 130, 130)
                     task.spawn(CopyDiscord)
                 else
                     NameLabel.Text = "✕ Failed to load"
@@ -298,7 +304,7 @@ local MenuButtons = {}
 local function CreateMenuButton(Text, IsActive, OnClick)
     local Btn = Instance.new("TextButton", MenuList)
     Btn.Size = UDim2.new(1, -16, 0, 40)
-    Btn.BackgroundColor3 = IsActive and Color3.fromRGB(35, 38, 50) or Color3.fromRGB(22, 23, 31)
+    Btn.BackgroundColor3 = IsActive and Color3.fromRGB(50, 25, 30) or Color3.fromRGB(22, 23, 31)
     Btn.Text = Text
     Btn.TextColor3 = IsActive and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(170, 175, 195)
     Btn.TextSize = 13
@@ -315,7 +321,7 @@ local function CreateMenuButton(Text, IsActive, OnClick)
             b.BackgroundColor3 = Color3.fromRGB(22, 23, 31)
             b.TextColor3 = Color3.fromRGB(170, 175, 195)
         end
-        Btn.BackgroundColor3 = Color3.fromRGB(35, 38, 50)
+        Btn.BackgroundColor3 = Color3.fromRGB(50, 25, 30)
         Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
         OnClick()
     end)
@@ -351,6 +357,7 @@ CreateMenuButton("Ride a pets", false, function()
     MM2Page.Visible = false
     RidePetsPage.Visible = true
 end)
+
 local ResizeBtn = Instance.new("TextButton", Main)
 ResizeBtn.Name = "Resize"
 ResizeBtn.Size = UDim2.fromOffset(26, 26)
