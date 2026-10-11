@@ -38,6 +38,7 @@ Gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Gui.DisplayOrder = 100
 Gui.Parent = PlayerGui
 
+-- === KHUNG CHÍNH ===
 local Main = Instance.new("Frame")
 Main.Name = "Main"
 Main.Size = UDim2.fromOffset(760, 460)
@@ -48,6 +49,7 @@ Main.ClipsDescendants = false
 Main.Active = true
 Main.Parent = Gui
 
+-- Bo góc cho khung chính
 local MainCorner = Instance.new("UICorner", Main)
 MainCorner.CornerRadius = UDim.new(0, 24)
 
@@ -58,10 +60,13 @@ MainStroke.Thickness = 1.2
 local UIScale = Instance.new("UIScale", Main)
 UIScale.Scale = DEFAULT_SCALE
 
+-- === THANH TIÊU ĐỀ ===
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 56)
 TopBar.BackgroundColor3 = Color3.fromRGB(8, 9, 14)
 TopBar.BorderSizePixel = 0
+-- ✅ Quan trọng: Không để TopBar che góc trên
+TopBar.ClipsDescendants = false
 
 local HubTitle = Instance.new("TextLabel", TopBar)
 HubTitle.Size = UDim2.new(1, -80, 1, 0)
@@ -73,6 +78,7 @@ HubTitle.TextSize = 20
 HubTitle.Font = Enum.Font.GothamBold
 HubTitle.TextXAlignment = Enum.TextXAlignment.Left
 
+-- Nút đóng
 local CloseBtn = Instance.new("TextButton", TopBar)
 CloseBtn.Size = UDim2.fromOffset(40, 40)
 CloseBtn.Position = UDim2.new(1, -44, 0, 8)
@@ -90,6 +96,7 @@ CloseBtn.MouseButton1Click:Connect(function()
     end
 end)
 
+-- === THANH BÊN TRÁI ===
 local Sidebar = Instance.new("Frame", Main)
 Sidebar.Size = UDim2.new(0, 230, 1, -56)
 Sidebar.Position = UDim2.new(0, 0, 0, 56)
@@ -98,6 +105,7 @@ Sidebar.BorderSizePixel = 0
 Sidebar.ClipsDescendants = true
 Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 20)
 
+-- Thông tin người dùng
 local UserBox = Instance.new("Frame", Sidebar)
 UserBox.Size = UDim2.new(1, -20, 0, 64)
 UserBox.Position = UDim2.new(0, 10, 0, 12)
@@ -131,6 +139,7 @@ UserRole.TextSize = 11
 UserRole.Font = Enum.Font.GothamSemibold
 UserRole.TextXAlignment = Enum.TextXAlignment.Left
 
+-- Danh sách menu
 local MenuList = Instance.new("ScrollingFrame", Sidebar)
 MenuList.Size = UDim2.new(1, 0, 1, -92)
 MenuList.Position = UDim2.new(0, 0, 0, 88)
@@ -144,12 +153,14 @@ local MenuLayout = Instance.new("UIListLayout", MenuList)
 MenuLayout.Padding = UDim.new(0, 8)
 MenuLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
+-- === KHU VỰC NỘI DUNG CHÍNH ===
 local PagesContainer = Instance.new("Frame", Main)
 PagesContainer.Size = UDim2.new(1, -230, 1, -56)
 PagesContainer.Position = UDim2.new(0, 230, 0, 56)
 PagesContainer.BackgroundTransparency = 1
 PagesContainer.ClipsDescendants = true
 
+-- Tạo trang script
 local function CreateScriptPage()
     local Page = Instance.new("Frame", PagesContainer)
     Page.Size = UDim2.new(1, 0, 1, 0)
@@ -222,6 +233,7 @@ local RidePetsPage, RidePetsScroll, RidePetsItems = CreateScriptPage()
 
 StealPage.Visible = true
 
+-- Thêm mục script vào trang
 local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
     if type(ListData) ~= "table" then return end
     for _, item in ipairs(ListData) do
@@ -287,6 +299,7 @@ local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
     end
 end
 
+-- Tải danh sách script từ GitHub
 task.spawn(function()
     local Success, Response = pcall(function() return game:HttpGet(SCRIPT_LIST_URL) end)
     if Success then
@@ -307,6 +320,7 @@ task.spawn(function()
     end
 end)
 
+-- Tạo nút menu
 local MenuButtons = {}
 local function CreateMenuButton(Text, IsActive, OnClick)
     local Btn = Instance.new("TextButton", MenuList)
@@ -337,6 +351,7 @@ local function CreateMenuButton(Text, IsActive, OnClick)
     return Btn
 end
 
+-- Các mục menu
 CreateMenuButton("🥚 Steal an Egg", true, function()
     StealPage.Visible = true
     BloxFruitPage.Visible = false
@@ -365,6 +380,7 @@ CreateMenuButton("🐾 Ride a Pet", false, function()
     RidePetsPage.Visible = true
 end)
 
+-- Nút thay đổi kích thước
 local ResizeBtn = Instance.new("TextButton", Main)
 ResizeBtn.Name = "Resize"
 ResizeBtn.Size = UDim2.fromOffset(30, 30)
@@ -392,6 +408,7 @@ UserInputService.InputChanged:Connect(function(Input)
     end
 end)
 
+-- Kéo di chuyển cửa sổ
 local Dragging, DragInput, DragStart, StartPos
 TopBar.InputBegan:Connect(function(Input)
     if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
@@ -409,6 +426,7 @@ UserInputService.InputChanged:Connect(function(Input)
     end
 end)
 
+-- Icon nổi ngoài màn hình
 local IconGui = Instance.new("ScreenGui")
 IconGui.Name = "AtrasIconSidebarV6"
 IconGui.ResetOnSpawn = false
