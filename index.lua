@@ -16,10 +16,9 @@ local function CopyDiscord()
 end
 task.spawn(CopyDiscord)
 
-local successThumbnail, playerAvatarUrl = pcall(function()
-    return Players:GetUserThumbnailAsync(Player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
-end)
-local CUSTOM_AVATAR = successThumbnail and playerAvatarUrl or "rbxassetid://0"
+-- === 🔹 THAY ID ẢNH CỦA BẠN VÀO ĐÂY ===
+-- Tải ảnh lên Roblox → lấy ID → thay vào dưới đây
+local CUSTOM_AVATAR = "rbxassetid://0"  -- ✅ Thay số 0 bằng ID ảnh của bạn
 
 local MIN_SCALE, MAX_SCALE, DEFAULT_SCALE = 0.55, 1.15, 0.75
 
@@ -44,13 +43,13 @@ Main.Name = "Main"
 Main.Size = UDim2.fromOffset(760, 460)
 Main.Position = UDim2.new(0.5, -380, 0.5, -230)
 Main.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
-Main.BackgroundTransparency = 0.55  -- ✅ Trong suốt hơn
+Main.BackgroundTransparency = 0.55
 Main.BorderSizePixel = 0
-Main.ClipsDescendants = true  -- ✅ Quan trọng: Để true để bo góc trên hiện đúng
+Main.ClipsDescendants = true
 Main.Active = true
 Main.Parent = Gui
 
--- ✅ Bo góc cho khung chính - 4 góc đều tròn
+-- ✅ 4 góc bo tròn đều
 local MainCorner = Instance.new("UICorner", Main)
 MainCorner.CornerRadius = UDim.new(0, 28)
 
@@ -65,16 +64,16 @@ UIScale.Scale = DEFAULT_SCALE
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 56)
 TopBar.BackgroundColor3 = Color3.fromRGB(3, 3, 8)
-TopBar.BackgroundTransparency = 0.6  -- ✅ Trong suốt hơn
+TopBar.BackgroundTransparency = 0.6
 TopBar.BorderSizePixel = 0
-TopBar.ClipsDescendants = true  -- ✅ Để không che góc trên của khung chính
+TopBar.ClipsDescendants = true
 
 local HubTitle = Instance.new("TextLabel", TopBar)
 HubTitle.Size = UDim2.new(1, -80, 1, 0)
 HubTitle.Position = UDim2.new(0, 24, 0, 0)
 HubTitle.BackgroundTransparency = 1
 HubTitle.Text = "✨ ATRAS | GIABÌNH ✨"
-HubTitle.TextColor3 = Color3.fromRGB(255, 245, 245)
+HubTitle.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
 HubTitle.TextSize = 20
 HubTitle.Font = Enum.Font.GothamBold
 HubTitle.TextXAlignment = Enum.TextXAlignment.Left
@@ -86,7 +85,7 @@ CloseBtn.Position = UDim2.new(1, -44, 0, 8)
 CloseBtn.BackgroundColor3 = Color3.fromRGB(40, 20, 25)
 CloseBtn.BackgroundTransparency = 0.65
 CloseBtn.Text = "×"
-CloseBtn.TextColor3 = Color3.fromRGB(255, 245, 245)
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
 CloseBtn.TextSize = 22
 CloseBtn.Font = Enum.Font.GothamBold
 Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 12)
@@ -103,7 +102,7 @@ local Sidebar = Instance.new("Frame", Main)
 Sidebar.Size = UDim2.new(0, 230, 1, -56)
 Sidebar.Position = UDim2.new(0, 0, 0, 56)
 Sidebar.BackgroundColor3 = Color3.fromRGB(6, 7, 14)
-Sidebar.BackgroundTransparency = 0.58  -- ✅ Trong suốt hơn
+Sidebar.BackgroundTransparency = 0.58
 Sidebar.BorderSizePixel = 0
 Sidebar.ClipsDescendants = true
 Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 20)
@@ -113,14 +112,15 @@ local UserBox = Instance.new("Frame", Sidebar)
 UserBox.Size = UDim2.new(1, -20, 0, 64)
 UserBox.Position = UDim2.new(0, 10, 0, 12)
 UserBox.BackgroundColor3 = Color3.fromRGB(3, 3, 8)
-UserBox.BackgroundTransparency = 0.62  -- ✅ Trong suốt hơn
+UserBox.BackgroundTransparency = 0.62
 Instance.new("UICorner", UserBox).CornerRadius = UDim.new(0, 16)
 
+-- ✅ Avatar mới
 local Avatar = Instance.new("ImageLabel", UserBox)
 Avatar.Size = UDim2.fromOffset(44, 44)
 Avatar.Position = UDim2.new(0, 10, 0.5, -22)
 Avatar.BackgroundTransparency = 1
-Avatar.Image = CUSTOM_AVATAR
+Avatar.Image = CUSTOM_AVATAR  -- ✅ Ảnh từ link bạn cung cấp
 Instance.new("UICorner", Avatar).CornerRadius = UDim.new(1, 0)
 
 local DisplayName = Instance.new("TextLabel", UserBox)
@@ -128,7 +128,7 @@ DisplayName.Size = UDim2.new(1, -64, 0, 22)
 DisplayName.Position = UDim2.new(0, 62, 0, 8)
 DisplayName.BackgroundTransparency = 1
 DisplayName.Text = Player.Name
-DisplayName.TextColor3 = Color3.fromRGB(255, 255, 255)
+DisplayName.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
 DisplayName.TextSize = 14
 DisplayName.Font = Enum.Font.GothamBold
 DisplayName.TextXAlignment = Enum.TextXAlignment.Left
@@ -175,11 +175,11 @@ local function CreateScriptPage()
     SearchBox.Size = UDim2.new(1, -36, 0, 44)
     SearchBox.Position = UDim2.new(0, 18, 0, 16)
     SearchBox.BackgroundColor3 = Color3.fromRGB(3, 3, 8)
-    SearchBox.BackgroundTransparency = 0.62  -- ✅ Trong suốt hơn
+    SearchBox.BackgroundTransparency = 0.62
     SearchBox.PlaceholderText = "🔍 Tìm kiếm script..."
-    SearchBox.PlaceholderColor3 = Color3.fromRGB(110, 115, 135)
+    SearchBox.PlaceholderColor3 = Color3.fromRGB(180, 180, 180)
     SearchBox.Text = ""
-    SearchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SearchBox.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
     SearchBox.TextSize = 14
     SearchBox.Font = Enum.Font.GothamSemibold
     SearchBox.ClearTextOnFocus = false
@@ -246,7 +246,7 @@ local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
             local Btn = Instance.new("TextButton", ScrollFrame)
             Btn.Size = UDim2.new(1, -8, 0, 52)
             Btn.BackgroundColor3 = Color3.fromRGB(5, 5, 12)
-            Btn.BackgroundTransparency = 0.65  -- ✅ Trong suốt hơn
+            Btn.BackgroundTransparency = 0.65
             Btn.Text = ""
             Btn.AutoButtonColor = false
             Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 14)
@@ -259,7 +259,7 @@ local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
             NameLabel.Position = UDim2.new(0, 16, 0, 0)
             NameLabel.BackgroundTransparency = 1
             NameLabel.Text = item.Name
-            NameLabel.TextColor3 = Color3.fromRGB(235, 240, 245)
+            NameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
             NameLabel.TextSize = 14
             NameLabel.Font = Enum.Font.GothamSemibold
             NameLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -270,7 +270,7 @@ local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
             PlayIcon.Position = UDim2.new(1, -42, 0.5, -16)
             PlayIcon.BackgroundTransparency = 1
             PlayIcon.Text = "▶"
-            PlayIcon.TextColor3 = Color3.fromRGB(150, 155, 175)
+            PlayIcon.TextColor3 = Color3.fromRGB(200, 200, 200)
             PlayIcon.TextSize = 16
             PlayIcon.Font = Enum.Font.GothamBold
 
@@ -287,7 +287,7 @@ local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
                     BackgroundColor3 = Color3.fromRGB(5, 5, 12),
                     BackgroundTransparency = 0.65
                 }):Play()
-                PlayIcon.TextColor3 = Color3.fromRGB(150, 155, 175)
+                PlayIcon.TextColor3 = Color3.fromRGB(200, 200, 200)
                 BtnStroke.Color = Color3.fromRGB(35, 20, 25)
             end)
 
@@ -340,7 +340,7 @@ local function CreateMenuButton(Text, IsActive, OnClick)
     Btn.BackgroundColor3 = IsActive and Color3.fromRGB(45, 22, 28) or Color3.fromRGB(8, 8, 16)
     Btn.BackgroundTransparency = IsActive and 0.45 or 0.65
     Btn.Text = Text
-    Btn.TextColor3 = IsActive and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(145, 150, 170)
+    Btn.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
     Btn.TextSize = 13
     Btn.Font = Enum.Font.GothamBold
     Btn.TextXAlignment = Enum.TextXAlignment.Left
@@ -354,11 +354,11 @@ local function CreateMenuButton(Text, IsActive, OnClick)
         for _, b in ipairs(MenuButtons) do
             b.BackgroundColor3 = Color3.fromRGB(8, 8, 16)
             b.BackgroundTransparency = 0.65
-            b.TextColor3 = Color3.fromRGB(145, 150, 170)
+            b.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
         end
         Btn.BackgroundColor3 = Color3.fromRGB(45, 22, 28)
         Btn.BackgroundTransparency = 0.45
-        Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Btn.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
         OnClick()
     end)
 
@@ -402,7 +402,7 @@ ResizeBtn.Size = UDim2.fromOffset(30, 30)
 ResizeBtn.Position = UDim2.new(1, -34, 1, -34)
 ResizeBtn.BackgroundTransparency = 1
 ResizeBtn.Text = "◢"
-ResizeBtn.TextColor3 = Color3.fromRGB(130, 135, 155)
+ResizeBtn.TextColor3 = Color3.fromRGB(180, 180, 180)
 ResizeBtn.TextSize = 16
 ResizeBtn.Font = Enum.Font.GothamBold
 ResizeBtn.ZIndex = 50
