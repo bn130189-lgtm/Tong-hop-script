@@ -1,7 +1,6 @@
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
-local RunService = game:GetService("RunService")
 local HttpService = game:GetService("HttpService")
 
 local Player = Players.LocalPlayer
@@ -16,13 +15,20 @@ local function CopyDiscord()
 end
 task.spawn(CopyDiscord)
 
--- === 🔹 THAY ID ẢNH CỦA BẠN VÀO ĐÂY ===
--- Tải ảnh lên Roblox → lấy ID → thay vào dưới đây
-local CUSTOM_AVATAR = "rbxassetid://0"  -- ✅ Thay số 0 bằng ID ảnh của bạn
+-- ✅ Avatar mới
+local CUSTOM_AVATAR = "rbxassetid://97608172188347"
 
-local MIN_SCALE, MAX_SCALE, DEFAULT_SCALE = 0.55, 1.15, 0.75
+-- 📱 Tự điều chỉnh kích thước theo màn hình
+local ScreenSize = workspace.CurrentCamera.ViewportSize
+local IS_MOBILE = ScreenSize.X < 550 or UserInputService.TouchEnabled
 
-for _, name in ipairs({"AtrasGiaBinhSidebarV6", "AtrasIconSidebarV6"}) do
+-- Kích thước phù hợp với mọi màn hình
+local BASE_WIDTH = IS_MOBILE and 340 or 420
+local BASE_HEIGHT = IS_MOBILE and math.min(420, ScreenSize.Y - 80) or 460
+local MIN_SCALE, MAX_SCALE = 0.65, 1.0
+local DEFAULT_SCALE = IS_MOBILE and 0.85 or 0.95
+
+for _, name in ipairs({"AtrasGiaBinhUI"}) do
     local old = PlayerGui:FindFirstChild(name)
     if old then old:Destroy() end
 end
@@ -30,18 +36,18 @@ end
 local CurrentThemeColor = Color3.fromRGB(220, 70, 85)
 
 local Gui = Instance.new("ScreenGui")
-Gui.Name = "AtrasGiaBinhSidebarV6"
+Gui.Name = "AtrasGiaBinhUI"
 Gui.ResetOnSpawn = false
 Gui.IgnoreGuiInset = true
 Gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 Gui.DisplayOrder = 100
 Gui.Parent = PlayerGui
 
--- === KHUNG CHÍNH ===
+-- === KHUNG CHÍNH — LUÔN CHÍNH GIỮA MÀN HÌNH ===
 local Main = Instance.new("Frame")
 Main.Name = "Main"
-Main.Size = UDim2.fromOffset(760, 460)
-Main.Position = UDim2.new(0.5, -380, 0.5, -230)
+Main.Size = UDim2.fromOffset(BASE_WIDTH, BASE_HEIGHT)
+Main.Position = UDim2.new(0.5, -BASE_WIDTH/2, 0.5, -BASE_HEIGHT/2)  -- ✅ Chính giữa màn hình
 Main.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
 Main.BackgroundTransparency = 0.55
 Main.BorderSizePixel = 0
@@ -49,9 +55,8 @@ Main.ClipsDescendants = true
 Main.Active = true
 Main.Parent = Gui
 
--- ✅ 4 góc bo tròn đều
 local MainCorner = Instance.new("UICorner", Main)
-MainCorner.CornerRadius = UDim.new(0, 28)
+MainCorner.CornerRadius = UDim.new(0, 24)
 
 local MainStroke = Instance.new("UIStroke", Main)
 MainStroke.Color = Color3.fromRGB(75, 35, 40)
@@ -62,91 +67,88 @@ UIScale.Scale = DEFAULT_SCALE
 
 -- === THANH TIÊU ĐỀ ===
 local TopBar = Instance.new("Frame", Main)
-TopBar.Size = UDim2.new(1, 0, 0, 56)
+TopBar.Size = UDim2.new(1, 0, 0, 52)
 TopBar.BackgroundColor3 = Color3.fromRGB(3, 3, 8)
 TopBar.BackgroundTransparency = 0.6
 TopBar.BorderSizePixel = 0
 TopBar.ClipsDescendants = true
 
 local HubTitle = Instance.new("TextLabel", TopBar)
-HubTitle.Size = UDim2.new(1, -80, 1, 0)
-HubTitle.Position = UDim2.new(0, 24, 0, 0)
+HubTitle.Size = UDim2.new(1, -70, 1, 0)
+HubTitle.Position = UDim2.new(0, 18, 0, 0)
 HubTitle.BackgroundTransparency = 1
 HubTitle.Text = "✨ ATRAS | GIABÌNH ✨"
-HubTitle.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
-HubTitle.TextSize = 20
+HubTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+HubTitle.TextSize = 18
 HubTitle.Font = Enum.Font.GothamBold
 HubTitle.TextXAlignment = Enum.TextXAlignment.Left
 
 -- Nút đóng
 local CloseBtn = Instance.new("TextButton", TopBar)
-CloseBtn.Size = UDim2.fromOffset(40, 40)
-CloseBtn.Position = UDim2.new(1, -44, 0, 8)
+CloseBtn.Size = UDim2.fromOffset(36, 36)
+CloseBtn.Position = UDim2.new(1, -42, 0, 8)
 CloseBtn.BackgroundColor3 = Color3.fromRGB(40, 20, 25)
 CloseBtn.BackgroundTransparency = 0.65
 CloseBtn.Text = "×"
-CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
-CloseBtn.TextSize = 22
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseBtn.TextSize = 20
 CloseBtn.Font = Enum.Font.GothamBold
-Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 12)
+Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 10)
 
 CloseBtn.MouseButton1Click:Connect(function()
     Gui:Destroy()
-    if PlayerGui:FindFirstChild("AtrasIconSidebarV6") then
-        PlayerGui.AtrasIconSidebarV6:Destroy()
-    end
 end)
 
 -- === THANH BÊN TRÁI ===
 local Sidebar = Instance.new("Frame", Main)
-Sidebar.Size = UDim2.new(0, 230, 1, -56)
-Sidebar.Position = UDim2.new(0, 0, 0, 56)
+Sidebar.Size = UDim2.new(0, 130, 1, -52)
+Sidebar.Position = UDim2.new(0, 0, 0, 52)
 Sidebar.BackgroundColor3 = Color3.fromRGB(6, 7, 14)
 Sidebar.BackgroundTransparency = 0.58
 Sidebar.BorderSizePixel = 0
 Sidebar.ClipsDescendants = true
-Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 20)
+Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 16)
 
 -- Thông tin người dùng
 local UserBox = Instance.new("Frame", Sidebar)
-UserBox.Size = UDim2.new(1, -20, 0, 64)
-UserBox.Position = UDim2.new(0, 10, 0, 12)
+UserBox.Size = UDim2.new(1, -16, 0, 56)
+UserBox.Position = UDim2.new(0, 8, 0, 8)
 UserBox.BackgroundColor3 = Color3.fromRGB(3, 3, 8)
 UserBox.BackgroundTransparency = 0.62
-Instance.new("UICorner", UserBox).CornerRadius = UDim.new(0, 16)
+Instance.new("UICorner", UserBox).CornerRadius = UDim.new(0, 12)
 
--- ✅ Avatar mới
+-- Avatar
 local Avatar = Instance.new("ImageLabel", UserBox)
-Avatar.Size = UDim2.fromOffset(44, 44)
-Avatar.Position = UDim2.new(0, 10, 0.5, -22)
+Avatar.Size = UDim2.fromOffset(36, 36)
+Avatar.Position = UDim2.new(0, 8, 0.5, -18)
 Avatar.BackgroundTransparency = 1
-Avatar.Image = CUSTOM_AVATAR  -- ✅ Ảnh từ link bạn cung cấp
+Avatar.Image = CUSTOM_AVATAR
 Instance.new("UICorner", Avatar).CornerRadius = UDim.new(1, 0)
 
 local DisplayName = Instance.new("TextLabel", UserBox)
-DisplayName.Size = UDim2.new(1, -64, 0, 22)
-DisplayName.Position = UDim2.new(0, 62, 0, 8)
+DisplayName.Size = UDim2.new(1, -52, 0, 18)
+DisplayName.Position = UDim2.new(0, 50, 0, 6)
 DisplayName.BackgroundTransparency = 1
 DisplayName.Text = Player.Name
-DisplayName.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
-DisplayName.TextSize = 14
+DisplayName.TextColor3 = Color3.fromRGB(255, 255, 255)
+DisplayName.TextSize = 11
 DisplayName.Font = Enum.Font.GothamBold
 DisplayName.TextXAlignment = Enum.TextXAlignment.Left
 
 local UserRole = Instance.new("TextLabel", UserBox)
-UserRole.Size = UDim2.new(1, -64, 0, 18)
-UserRole.Position = UDim2.new(0, 62, 0, 30)
+UserRole.Size = UDim2.new(1, -52, 0, 14)
+UserRole.Position = UDim2.new(0, 50, 0, 26)
 UserRole.BackgroundTransparency = 1
-UserRole.Text = "💎 Premium Member"
+UserRole.Text = "💎 Premium"
 UserRole.TextColor3 = CurrentThemeColor
-UserRole.TextSize = 11
+UserRole.TextSize = 9
 UserRole.Font = Enum.Font.GothamSemibold
 UserRole.TextXAlignment = Enum.TextXAlignment.Left
 
 -- Danh sách menu
 local MenuList = Instance.new("ScrollingFrame", Sidebar)
-MenuList.Size = UDim2.new(1, 0, 1, -92)
-MenuList.Position = UDim2.new(0, 0, 0, 88)
+MenuList.Size = UDim2.new(1, 0, 1, -72)
+MenuList.Position = UDim2.new(0, 0, 0, 64)
 MenuList.BackgroundTransparency = 1
 MenuList.BorderSizePixel = 0
 MenuList.ScrollBarThickness = 0
@@ -154,13 +156,13 @@ MenuList.AutomaticCanvasSize = Enum.AutomaticSize.Y
 MenuList.CanvasSize = UDim2.new()
 
 local MenuLayout = Instance.new("UIListLayout", MenuList)
-MenuLayout.Padding = UDim.new(0, 8)
+MenuLayout.Padding = UDim.new(0, 6)
 MenuLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
 -- === KHU VỰC NỘI DUNG CHÍNH ===
 local PagesContainer = Instance.new("Frame", Main)
-PagesContainer.Size = UDim2.new(1, -230, 1, -56)
-PagesContainer.Position = UDim2.new(0, 230, 0, 56)
+PagesContainer.Size = UDim2.new(1, -130, 1, -52)
+PagesContainer.Position = UDim2.new(0, 130, 0, 52)
 PagesContainer.BackgroundTransparency = 1
 PagesContainer.ClipsDescendants = true
 
@@ -172,47 +174,47 @@ local function CreateScriptPage()
     Page.Visible = false
 
     local SearchBox = Instance.new("TextBox", Page)
-    SearchBox.Size = UDim2.new(1, -36, 0, 44)
-    SearchBox.Position = UDim2.new(0, 18, 0, 16)
+    SearchBox.Size = UDim2.new(1, -32, 0, 40)
+    SearchBox.Position = UDim2.new(0, 16, 0, 12)
     SearchBox.BackgroundColor3 = Color3.fromRGB(3, 3, 8)
     SearchBox.BackgroundTransparency = 0.62
-    SearchBox.PlaceholderText = "🔍 Tìm kiếm script..."
+    SearchBox.PlaceholderText = "🔍 Tìm script..."
     SearchBox.PlaceholderColor3 = Color3.fromRGB(180, 180, 180)
     SearchBox.Text = ""
-    SearchBox.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
-    SearchBox.TextSize = 14
+    SearchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SearchBox.TextSize = 13
     SearchBox.Font = Enum.Font.GothamSemibold
     SearchBox.ClearTextOnFocus = false
-    Instance.new("UICorner", SearchBox).CornerRadius = UDim.new(0, 14)
+    Instance.new("UICorner", SearchBox).CornerRadius = UDim.new(0, 12)
     local SearchStroke = Instance.new("UIStroke", SearchBox)
     SearchStroke.Color = Color3.fromRGB(45, 25, 30)
     SearchStroke.Thickness = 1
 
     local SearchPadding = Instance.new("UIPadding", SearchBox)
-    SearchPadding.PaddingLeft = UDim.new(0, 16)
+    SearchPadding.PaddingLeft = UDim.new(0, 12)
 
     local StatusBadge = Instance.new("TextLabel", Page)
-    StatusBadge.Size = UDim2.new(1, -36, 0, 20)
-    StatusBadge.Position = UDim2.new(0, 18, 0, 72)
+    StatusBadge.Size = UDim2.new(1, -32, 0, 16)
+    StatusBadge.Position = UDim2.new(0, 16, 0, 64)
     StatusBadge.BackgroundTransparency = 1
-    StatusBadge.Text = "✅ KHÔNG CẦN KEY | TẬP HỢP SCRIPT"
+    StatusBadge.Text = "✅ KHÔNG CẦN KEY | TẬP SCRIPT"
     StatusBadge.TextColor3 = CurrentThemeColor
-    StatusBadge.TextSize = 12
+    StatusBadge.TextSize = 10
     StatusBadge.Font = Enum.Font.GothamBold
     StatusBadge.TextXAlignment = Enum.TextXAlignment.Left
 
     local ScriptScroll = Instance.new("ScrollingFrame", Page)
-    ScriptScroll.Size = UDim2.new(1, -24, 1, -104)
-    ScriptScroll.Position = UDim2.new(0, 18, 0, 96)
+    ScriptScroll.Size = UDim2.new(1, -20, 1, -88)
+    ScriptScroll.Position = UDim2.new(0, 10, 0, 80)
     ScriptScroll.BackgroundTransparency = 1
     ScriptScroll.BorderSizePixel = 0
-    ScriptScroll.ScrollBarThickness = 4
+    ScriptScroll.ScrollBarThickness = 3
     ScriptScroll.ScrollBarImageColor3 = CurrentThemeColor
     ScriptScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
     ScriptScroll.CanvasSize = UDim2.new()
 
     local ScriptLayout = Instance.new("UIListLayout", ScriptScroll)
-    ScriptLayout.Padding = UDim.new(0, 10)
+    ScriptLayout.Padding = UDim.new(0, 8)
     ScriptLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
     local AllScriptButtons = {}
@@ -244,34 +246,34 @@ local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
     for _, item in ipairs(ListData) do
         if item.Name and item.Url then
             local Btn = Instance.new("TextButton", ScrollFrame)
-            Btn.Size = UDim2.new(1, -8, 0, 52)
+            Btn.Size = UDim2.new(1, -8, 0, 44)
             Btn.BackgroundColor3 = Color3.fromRGB(5, 5, 12)
             Btn.BackgroundTransparency = 0.65
             Btn.Text = ""
             Btn.AutoButtonColor = false
-            Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 14)
+            Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 12)
             local BtnStroke = Instance.new("UIStroke", Btn)
             BtnStroke.Color = Color3.fromRGB(35, 20, 25)
             BtnStroke.Thickness = 1
 
             local NameLabel = Instance.new("TextLabel", Btn)
-            NameLabel.Size = UDim2.new(1, -50, 1, 0)
-            NameLabel.Position = UDim2.new(0, 16, 0, 0)
+            NameLabel.Size = UDim2.new(1, -42, 1, 0)
+            NameLabel.Position = UDim2.new(0, 12, 0, 0)
             NameLabel.BackgroundTransparency = 1
             NameLabel.Text = item.Name
-            NameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
-            NameLabel.TextSize = 14
+            NameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+            NameLabel.TextSize = 12
             NameLabel.Font = Enum.Font.GothamSemibold
             NameLabel.TextXAlignment = Enum.TextXAlignment.Left
             NameLabel.TextTruncate = Enum.TextTruncate.AtEnd
 
             local PlayIcon = Instance.new("TextLabel", Btn)
-            PlayIcon.Size = UDim2.fromOffset(32, 32)
-            PlayIcon.Position = UDim2.new(1, -42, 0.5, -16)
+            PlayIcon.Size = UDim2.fromOffset(24, 24)
+            PlayIcon.Position = UDim2.new(1, -34, 0.5, -12)
             PlayIcon.BackgroundTransparency = 1
             PlayIcon.Text = "▶"
             PlayIcon.TextColor3 = Color3.fromRGB(200, 200, 200)
-            PlayIcon.TextSize = 16
+            PlayIcon.TextSize = 14
             PlayIcon.Font = Enum.Font.GothamBold
 
             Btn.MouseEnter:Connect(function()
@@ -296,11 +298,11 @@ local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
                 NameLabel.TextColor3 = CurrentThemeColor
                 local Success, Error = pcall(function() loadstring(game:HttpGet(item.Url))() end)
                 if Success then
-                    NameLabel.Text = "✅ Thành công: " .. item.Name
+                    NameLabel.Text = "✅ Thành công"
                     NameLabel.TextColor3 = Color3.fromRGB(90, 210, 130)
                     task.spawn(CopyDiscord)
                 else
-                    NameLabel.Text = "❌ Lỗi tải script"
+                    NameLabel.Text = "❌ Lỗi tải"
                     NameLabel.TextColor3 = Color3.fromRGB(255, 85, 95)
                     warn("[Atras] " .. tostring(Error))
                 end
@@ -334,137 +336,50 @@ end)
 
 -- Tạo nút menu
 local MenuButtons = {}
-local function CreateMenuButton(Text, IsActive, OnClick)
+local CurrentPage = StealPage
+
+local function SwitchPage(NewPage)
+    CurrentPage.Visible = false
+    NewPage.Visible = true
+    CurrentPage = NewPage
+end
+
+local function CreateMenuButton(Text, TargetPage, IsActive)
     local Btn = Instance.new("TextButton", MenuList)
-    Btn.Size = UDim2.new(1, -16, 0, 46)
+    Btn.Size = UDim2.new(1, -12, 0, 40)
     Btn.BackgroundColor3 = IsActive and Color3.fromRGB(45, 22, 28) or Color3.fromRGB(8, 8, 16)
     Btn.BackgroundTransparency = IsActive and 0.45 or 0.65
     Btn.Text = Text
-    Btn.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
-    Btn.TextSize = 13
+    Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Btn.TextSize = 11
     Btn.Font = Enum.Font.GothamBold
-    Btn.TextXAlignment = Enum.TextXAlignment.Left
+    Btn.TextXAlignment = Enum.TextXAlignment.Center
     Btn.AutoButtonColor = false
-    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 14)
-    
-    local Padding = Instance.new("UIPadding", Btn)
-    Padding.PaddingLeft = UDim.new(0, 16)
+    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 10)
 
     Btn.MouseButton1Click:Connect(function()
         for _, b in ipairs(MenuButtons) do
             b.BackgroundColor3 = Color3.fromRGB(8, 8, 16)
             b.BackgroundTransparency = 0.65
-            b.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
         end
         Btn.BackgroundColor3 = Color3.fromRGB(45, 22, 28)
         Btn.BackgroundTransparency = 0.45
-        Btn.TextColor3 = Color3.fromRGB(255, 255, 255)  -- ✅ Chữ trắng
-        OnClick()
+        SwitchPage(TargetPage)
     end)
 
     table.insert(MenuButtons, Btn)
     return Btn
 end
 
--- Các mục menu
-CreateMenuButton("🥚 Steal an Egg", true, function()
-    StealPage.Visible = true
-    BloxFruitPage.Visible = false
-    MM2Page.Visible = false
-    RidePetsPage.Visible = false
-end)
+-- Tạo các nút menu
+CreateMenuButton("🥚 Trộm Trứng", StealPage, true)
+CreateMenuButton("🍇 Blox Fruit", BloxFruitPage, false)
+CreateMenuButton("🔪 MM2", MM2Page, false)
+CreateMenuButton("🐾 Ride Pets", RidePetsPage, false)
 
-CreateMenuButton("🍊 Blox Fruit", false, function()
-    StealPage.Visible = false
-    BloxFruitPage.Visible = true
-    MM2Page.Visible = false
-    RidePetsPage.Visible = false
-end)
-
-CreateMenuButton("🔪 Murder Mystery 2", false, function()
-    StealPage.Visible = false
-    BloxFruitPage.Visible = false
-    MM2Page.Visible = true
-    RidePetsPage.Visible = false
-end)
-
-CreateMenuButton("🐾 Ride a Pet", false, function()
-    StealPage.Visible = false
-    BloxFruitPage.Visible = false
-    MM2Page.Visible = false
-    RidePetsPage.Visible = true
-end)
-
--- Nút thay đổi kích thước
-local ResizeBtn = Instance.new("TextButton", Main)
-ResizeBtn.Name = "Resize"
-ResizeBtn.Size = UDim2.fromOffset(30, 30)
-ResizeBtn.Position = UDim2.new(1, -34, 1, -34)
-ResizeBtn.BackgroundTransparency = 1
-ResizeBtn.Text = "◢"
-ResizeBtn.TextColor3 = Color3.fromRGB(180, 180, 180)
-ResizeBtn.TextSize = 16
-ResizeBtn.Font = Enum.Font.GothamBold
-ResizeBtn.ZIndex = 50
-
-local Resizing, ResizeStart, ResizeStartScale, ResizeTarget = false, nil, DEFAULT_SCALE, DEFAULT_SCALE
-ResizeBtn.InputBegan:Connect(function(Input)
-    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
-        Resizing, ResizeStart, ResizeStartScale, ResizeTarget = true, Input.Position, UIScale.Scale, UIScale.Scale
-        Input.Changed:Connect(function() if Input.UserInputState == Enum.UserInputState.End then Resizing = false end end)
-    end
-end)
-
-UserInputService.InputChanged:Connect(function(Input)
-    if Resizing and (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) then
-        local Delta = Input.Position - ResizeStart
-        ResizeTarget = math.clamp(ResizeStartScale + ((Delta.X + Delta.Y) / 900), MIN_SCALE, MAX_SCALE)
-        UIScale.Scale = ResizeTarget
-    end
-end)
-
--- Kéo di chuyển cửa sổ
-local Dragging, DragInput, DragStart, StartPos
-TopBar.InputBegan:Connect(function(Input)
-    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
-        Dragging, DragStart, StartPos = true, Input.Position, Main.Position
-        Input.Changed:Connect(function()
-            if Input.UserInputState == Enum.UserInputState.End then Dragging = false end
-        end)
-    end
-end)
-
-UserInputService.InputChanged:Connect(function(Input)
-    if Dragging and (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) then
-        local Delta = Input.Position - DragStart
-        Main.Position = UDim2.new(StartPos.X.Scale, StartPos.X.Offset + Delta.X, StartPos.Y.Scale, StartPos.Y.Offset + Delta.Y)
-    end
-end)
-
--- Icon nổi ngoài màn hình
-local IconGui = Instance.new("ScreenGui")
-IconGui.Name = "AtrasIconSidebarV6"
-IconGui.ResetOnSpawn = false
-IconGui.IgnoreGuiInset = true
-IconGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-IconGui.DisplayOrder = 99
-IconGui.Parent = PlayerGui
-
-local FloatIcon = Instance.new("TextButton", IconGui)
-FloatIcon.Size = UDim2.fromOffset(52, 52)
-FloatIcon.Position = UDim2.new(0, 20, 0.4, 0)
-FloatIcon.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
-FloatIcon.BackgroundTransparency = 0.55
-FloatIcon.Text = "✨"
-FloatIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
-FloatIcon.TextSize = 20
-FloatIcon.Font = Enum.Font.GothamBold
-FloatIcon.AutoButtonColor = false
-Instance.new("UICorner", FloatIcon).CornerRadius = UDim.new(1, 0)
-local FloatStroke = Instance.new("UIStroke", FloatIcon)
-FloatStroke.Color = CurrentThemeColor
-FloatStroke.Thickness = 2
-
-FloatIcon.MouseButton1Click:Connect(function()
-    Main.Visible = not Main.Visible
+-- Cập nhật vị trí khi đổi kích thước màn hình
+workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
+    local W = workspace.CurrentCamera.ViewportSize.X
+    local H = workspace.CurrentCamera.ViewportSize.Y
+    Main.Position = UDim2.new(0.5, -Main.AbsoluteSize.X/2, 0.5, -Main.AbsoluteSize.Y/2)
 end)
