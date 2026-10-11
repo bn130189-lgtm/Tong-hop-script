@@ -18,14 +18,15 @@ task.spawn(CopyDiscord)
 -- 🖼️ Hình logo/icon của bạn
 local CUSTOM_LOGO = "rbxassetid://97608172188347"
 
--- 📱 Tự điều chỉnh kích thước theo màn hình
+-- 📱 Kích thước cơ sở
 local ScreenSize = workspace.CurrentCamera.ViewportSize
 local IS_MOBILE = ScreenSize.X < 550 or UserInputService.TouchEnabled
 
--- Kích thước phù hợp với mọi màn hình
 local BASE_WIDTH = IS_MOBILE and 340 or 420
 local BASE_HEIGHT = IS_MOBILE and math.min(420, ScreenSize.Y - 80) or 460
-local SIDEBAR_WIDTH = IS_MOBILE and 120 or 140  -- Menu dài ngang hơn
+local MIN_SIDEBAR_WIDTH = 70
+local MAX_SIDEBAR_WIDTH = 160
+local DEFAULT_SIDEBAR_WIDTH = IS_MOBILE and 110 or 130
 local DEFAULT_SCALE = IS_MOBILE and 0.85 or 0.95
 
 -- Xóa giao diện cũ
@@ -64,7 +65,7 @@ MainStroke.Thickness = 1.2
 local UIScale = Instance.new("UIScale", Main)
 UIScale.Scale = DEFAULT_SCALE
 
--- === THANH TIÊU ĐỀ — KÉO ĐƯỢC ===
+-- === THANH TIÊU ĐỀ — KÉO DI CHUYỂN ===
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 52)
 TopBar.BackgroundColor3 = Color3.fromRGB(3, 3, 8)
@@ -72,7 +73,7 @@ TopBar.BackgroundTransparency = 0.6
 TopBar.ClipsDescendants = true
 TopBar.Active = true
 
--- 🖼️ Hình bên cạnh chữ ATRAS | GIABÌNH
+-- 🖼️ Icon bên trái tiêu đề
 local TitleIcon = Instance.new("ImageLabel", TopBar)
 TitleIcon.Size = UDim2.fromOffset(26, 26)
 TitleIcon.Position = UDim2.new(0, 12, 0.5, -13)
@@ -81,8 +82,8 @@ TitleIcon.Image = CUSTOM_LOGO
 Instance.new("UICorner", TitleIcon).CornerRadius = UDim.new(0, 6)
 
 local HubTitle = Instance.new("TextLabel", TopBar)
-HubTitle.Size = UDim2.new(1, -80, 1, 0)
-HubTitle.Position = UDim2.new(0, 44, 0, 0)
+HubTitle.Size = UDim2.new(1, -60, 1, 0)
+HubTitle.Position = UDim2.new(0, 48, 0, 0)
 HubTitle.BackgroundTransparency = 1
 HubTitle.Text = "ATRAS | GIABÌNH"
 HubTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -90,18 +91,10 @@ HubTitle.TextSize = 17
 HubTitle.Font = Enum.Font.GothamBold
 HubTitle.TextXAlignment = Enum.TextXAlignment.Left
 
--- ⭐ Icon góc trên bên phải (logo của bạn)
-local CornerLogo = Instance.new("ImageLabel", TopBar)
-CornerLogo.Size = UDim2.fromOffset(28, 28)
-CornerLogo.Position = UDim2.new(1, -68, 0.5, -14)
-CornerLogo.BackgroundTransparency = 1
-CornerLogo.Image = CUSTOM_LOGO
-Instance.new("UICorner", CornerLogo).CornerRadius = UDim.new(1, 0)
-
 -- Nút đóng
 local CloseBtn = Instance.new("TextButton", TopBar)
 CloseBtn.Size = UDim2.fromOffset(28, 28)
-CloseBtn.Position = UDim2.new(1, -34, 0.5, -14)
+CloseBtn.Position = UDim2.new(1, -36, 0.5, -14)
 CloseBtn.BackgroundColor3 = Color3.fromRGB(40, 20, 25)
 CloseBtn.BackgroundTransparency = 0.65
 CloseBtn.Text = "×"
@@ -115,9 +108,14 @@ CloseBtn.MouseButton1Click:Connect(function()
 end)
 
 -- === THANH BÊN TRÁI ===
-local Sidebar = Instance.new("Frame", Main)
-Sidebar.Size = UDim2.new(0, SIDEBAR_WIDTH, 1, -52)
-Sidebar.Position = UDim2.new(0, 0, 0, 52)
+local SidebarContainer = Instance.new("Frame", Main)
+SidebarContainer.Name = "SidebarContainer"
+SidebarContainer.Size = UDim2.fromOffset(DEFAULT_SIDEBAR_WIDTH, -52)
+SidebarContainer.Position = UDim2.new(0, 0, 0, 52)
+SidebarContainer.BackgroundTransparency = 1
+
+local Sidebar = Instance.new("Frame", SidebarContainer)
+Sidebar.Size = UDim2.new(1, 0, 1, 0)
 Sidebar.BackgroundColor3 = Color3.fromRGB(6, 7, 14)
 Sidebar.BackgroundTransparency = 0.58
 Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 16)
@@ -130,12 +128,12 @@ UserBox.BackgroundColor3 = Color3.fromRGB(3, 3, 8)
 UserBox.BackgroundTransparency = 0.62
 Instance.new("UICorner", UserBox).CornerRadius = UDim.new(0, 12)
 
--- 👤 Avatar nhân vật trong game
+-- 👤 Avatar game tự động lấy
 local GameAvatar = Instance.new("ImageLabel", UserBox)
 GameAvatar.Size = UDim2.fromOffset(40, 40)
 GameAvatar.Position = UDim2.new(0, 8, 0.5, -20)
 GameAvatar.BackgroundTransparency = 1
-GameAvatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. Player.UserId .. "&w=150&h=150"  -- ✅ Tự lấy avatar game
+GameAvatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. Player.UserId .. "&w=150&h=150"
 Instance.new("UICorner", GameAvatar).CornerRadius = UDim.new(1, 0)
 
 local DisplayName = Instance.new("TextLabel", UserBox)
@@ -171,12 +169,66 @@ local MenuLayout = Instance.new("UIListLayout", MenuList)
 MenuLayout.Padding = UDim.new(0, 6)
 MenuLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
+-- === NÚT KÉO ĐIỀU CHỈNH RỘNG MENU ===
+local ResizeHandle = Instance.new("TextButton", Main)
+ResizeHandle.Name = "ResizeHandle"
+ResizeHandle.Size = UDim2.fromOffset(8, 60)
+ResizeHandle.Position = UDim2.new(0, DEFAULT_SIDEBAR_WIDTH - 4, 0, BASE_HEIGHT/2 - 30)
+ResizeHandle.BackgroundColor3 = CurrentThemeColor
+ResizeHandle.BackgroundTransparency = 0.5
+ResizeHandle.Text = "|||"
+ResizeHandle.TextColor3 = Color3.fromRGB(255, 255, 255)
+ResizeHandle.TextSize = 9
+ResizeHandle.Font = Enum.Font.GothamBold
+ResizeHandle.AutoButtonColor = false
+ResizeHandle.ZIndex = 10
+Instance.new("UICorner", ResizeHandle).CornerRadius = UDim.new(0, 4)
+
 -- === KHU VỰC NỘI DUNG CHÍNH ===
 local PagesContainer = Instance.new("Frame", Main)
-PagesContainer.Size = UDim2.new(1, -SIDEBAR_WIDTH, 1, -52)
-PagesContainer.Position = UDim2.new(0, SIDEBAR_WIDTH, 0, 52)
+PagesContainer.Name = "PagesContainer"
+PagesContainer.Size = UDim2.new(1, -DEFAULT_SIDEBAR_WIDTH, 1, -52)
+PagesContainer.Position = UDim2.new(0, DEFAULT_SIDEBAR_WIDTH, 0, 52)
 PagesContainer.BackgroundTransparency = 1
 PagesContainer.ClipsDescendants = true
+
+-- Hàm cập nhật kích thước menu
+local function UpdateSidebarWidth(newWidth)
+    newWidth = math.clamp(newWidth, MIN_SIDEBAR_WIDTH, MAX_SIDEBAR_WIDTH)
+    SidebarContainer.Size = UDim2.fromOffset(newWidth, -52)
+    PagesContainer.Size = UDim2.new(1, -newWidth, 1, -52)
+    PagesContainer.Position = UDim2.new(0, newWidth, 0, 52)
+    ResizeHandle.Position = UDim2.new(0, newWidth - 4, 0, BASE_HEIGHT/2 - 30)
+    
+    -- Ẩn hiện chữ khi thu nhỏ menu
+    local IsNarrow = newWidth < 100
+    DisplayName.Visible = not IsNarrow
+    UserRole.Visible = not IsNarrow
+    for _, btn in ipairs(MenuButtons) do
+        btn.TextSize = IsNarrow and 9 or 11
+    end
+end
+
+-- Kéo điều chỉnh độ rộng menu
+local Resizing = false
+ResizeHandle.InputBegan:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        Resizing = true
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(Input)
+    if Resizing and (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) then
+        local LocalX = Input.Position - Main.AbsolutePosition
+        UpdateSidebarWidth(LocalX.X)
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        Resizing = false
+    end
+end)
 
 -- Tạo trang script
 local function CreateScriptPage()
@@ -374,7 +426,7 @@ CreateMenuButton("🍊 Blox Fruit", BloxFruitPage, false)
 CreateMenuButton("🔪 MM2", MM2Page, false)
 CreateMenuButton("🐾 Ride Pets", RidePetsPage, false)
 
--- === KÉO DI CHUYỂN CỬA SỔ ===
+-- === KÉO DI CHUYỂN TOÀN BỘ CỬA SỔ ===
 local Dragging = false
 local DragStartPos = Vector2.new()
 local StartMainPos = UDim2.new()
