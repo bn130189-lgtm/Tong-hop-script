@@ -43,13 +43,13 @@ local Main = Instance.new("Frame")
 Main.Name = "Main"
 Main.Size = UDim2.fromOffset(760, 460)
 Main.Position = UDim2.new(0.5, -380, 0.5, -230)
-Main.BackgroundColor3 = Color3.fromRGB(12, 13, 18)
+Main.BackgroundColor3 = Color3.fromRGB(8, 8, 14)
+Main.BackgroundTransparency = 0.25
 Main.BorderSizePixel = 0
 Main.ClipsDescendants = false
 Main.Active = true
 Main.Parent = Gui
 
--- Bo góc cho khung chính
 local MainCorner = Instance.new("UICorner", Main)
 MainCorner.CornerRadius = UDim.new(0, 24)
 
@@ -63,9 +63,9 @@ UIScale.Scale = DEFAULT_SCALE
 -- === THANH TIÊU ĐỀ ===
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 56)
-TopBar.BackgroundColor3 = Color3.fromRGB(8, 9, 14)
+TopBar.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
+TopBar.BackgroundTransparency = 0.35
 TopBar.BorderSizePixel = 0
--- ✅ Quan trọng: Không để TopBar che góc trên
 TopBar.ClipsDescendants = false
 
 local HubTitle = Instance.new("TextLabel", TopBar)
@@ -83,6 +83,7 @@ local CloseBtn = Instance.new("TextButton", TopBar)
 CloseBtn.Size = UDim2.fromOffset(40, 40)
 CloseBtn.Position = UDim2.new(1, -44, 0, 8)
 CloseBtn.BackgroundColor3 = Color3.fromRGB(40, 20, 25)
+CloseBtn.BackgroundTransparency = 0.5
 CloseBtn.Text = "×"
 CloseBtn.TextColor3 = Color3.fromRGB(255, 245, 245)
 CloseBtn.TextSize = 22
@@ -100,7 +101,8 @@ end)
 local Sidebar = Instance.new("Frame", Main)
 Sidebar.Size = UDim2.new(0, 230, 1, -56)
 Sidebar.Position = UDim2.new(0, 0, 0, 56)
-Sidebar.BackgroundColor3 = Color3.fromRGB(16, 17, 24)
+Sidebar.BackgroundColor3 = Color3.fromRGB(10, 11, 18)
+Sidebar.BackgroundTransparency = 0.4
 Sidebar.BorderSizePixel = 0
 Sidebar.ClipsDescendants = true
 Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 20)
@@ -109,7 +111,8 @@ Instance.new("UICorner", Sidebar).CornerRadius = UDim.new(0, 20)
 local UserBox = Instance.new("Frame", Sidebar)
 UserBox.Size = UDim2.new(1, -20, 0, 64)
 UserBox.Position = UDim2.new(0, 10, 0, 12)
-UserBox.BackgroundColor3 = Color3.fromRGB(10, 11, 16)
+UserBox.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
+UserBox.BackgroundTransparency = 0.45
 Instance.new("UICorner", UserBox).CornerRadius = UDim.new(0, 16)
 
 local Avatar = Instance.new("ImageLabel", UserBox)
@@ -170,7 +173,8 @@ local function CreateScriptPage()
     local SearchBox = Instance.new("TextBox", Page)
     SearchBox.Size = UDim2.new(1, -36, 0, 44)
     SearchBox.Position = UDim2.new(0, 18, 0, 16)
-    SearchBox.BackgroundColor3 = Color3.fromRGB(10, 11, 18)
+    SearchBox.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
+    SearchBox.BackgroundTransparency = 0.45
     SearchBox.PlaceholderText = "🔍 Tìm kiếm script..."
     SearchBox.PlaceholderColor3 = Color3.fromRGB(110, 115, 135)
     SearchBox.Text = ""
@@ -240,7 +244,8 @@ local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
         if item.Name and item.Url then
             local Btn = Instance.new("TextButton", ScrollFrame)
             Btn.Size = UDim2.new(1, -8, 0, 52)
-            Btn.BackgroundColor3 = Color3.fromRGB(18, 19, 28)
+            Btn.BackgroundColor3 = Color3.fromRGB(8, 8, 18)
+            Btn.BackgroundTransparency = 0.5
             Btn.Text = ""
             Btn.AutoButtonColor = false
             Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 14)
@@ -269,12 +274,18 @@ local function PopulateScriptItems(ScrollFrame, ItemTable, ListData)
             PlayIcon.Font = Enum.Font.GothamBold
 
             Btn.MouseEnter:Connect(function()
-                TweenService:Create(Btn, TweenInfo.new(0.18), {BackgroundColor3 = Color3.fromRGB(35, 22, 28)}):Play()
+                TweenService:Create(Btn, TweenInfo.new(0.18), {
+                    BackgroundColor3 = Color3.fromRGB(35, 22, 28),
+                    BackgroundTransparency = 0.35
+                }):Play()
                 PlayIcon.TextColor3 = CurrentThemeColor
                 BtnStroke.Color = CurrentThemeColor
             end)
             Btn.MouseLeave:Connect(function()
-                TweenService:Create(Btn, TweenInfo.new(0.18), {BackgroundColor3 = Color3.fromRGB(18, 19, 28)}):Play()
+                TweenService:Create(Btn, TweenInfo.new(0.18), {
+                    BackgroundColor3 = Color3.fromRGB(8, 8, 18),
+                    BackgroundTransparency = 0.5
+                }):Play()
                 PlayIcon.TextColor3 = Color3.fromRGB(150, 155, 175)
                 BtnStroke.Color = Color3.fromRGB(35, 20, 25)
             end)
@@ -325,7 +336,8 @@ local MenuButtons = {}
 local function CreateMenuButton(Text, IsActive, OnClick)
     local Btn = Instance.new("TextButton", MenuList)
     Btn.Size = UDim2.new(1, -16, 0, 46)
-    Btn.BackgroundColor3 = IsActive and Color3.fromRGB(45, 22, 28) or Color3.fromRGB(16, 17, 24)
+    Btn.BackgroundColor3 = IsActive and Color3.fromRGB(45, 22, 28) or Color3.fromRGB(12, 13, 22)
+    Btn.BackgroundTransparency = IsActive and 0.35 or 0.5
     Btn.Text = Text
     Btn.TextColor3 = IsActive and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(145, 150, 170)
     Btn.TextSize = 13
@@ -339,10 +351,12 @@ local function CreateMenuButton(Text, IsActive, OnClick)
 
     Btn.MouseButton1Click:Connect(function()
         for _, b in ipairs(MenuButtons) do
-            b.BackgroundColor3 = Color3.fromRGB(16, 17, 24)
+            b.BackgroundColor3 = Color3.fromRGB(12, 13, 22)
+            b.BackgroundTransparency = 0.5
             b.TextColor3 = Color3.fromRGB(145, 150, 170)
         end
         Btn.BackgroundColor3 = Color3.fromRGB(45, 22, 28)
+        Btn.BackgroundTransparency = 0.35
         Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
         OnClick()
     end)
@@ -438,7 +452,8 @@ IconGui.Parent = PlayerGui
 local FloatIcon = Instance.new("TextButton", IconGui)
 FloatIcon.Size = UDim2.fromOffset(52, 52)
 FloatIcon.Position = UDim2.new(0, 20, 0.4, 0)
-FloatIcon.BackgroundColor3 = Color3.fromRGB(12, 13, 18)
+FloatIcon.BackgroundColor3 = Color3.fromRGB(8, 8, 14)
+FloatIcon.BackgroundTransparency = 0.25
 FloatIcon.Text = "✨"
 FloatIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
 FloatIcon.TextSize = 20
