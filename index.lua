@@ -1,10 +1,76 @@
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
-local HttpService = game:GetService("HttpService")
 
 local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
+
+-- 🖼️ Hình logo/icon của bạn
+local CUSTOM_LOGO = "rbxassetid://97608172188347"
+
+-- Xóa giao diện cũ
+for _, name in ipairs({"AtrasGiaBinhUI", "AtrasToggleIcon"}) do
+    local old = PlayerGui:FindFirstChild(name)
+    if old then old:Destroy() end
+end
+
+local CurrentThemeColor = Color3.fromRGB(220, 70, 85)
+
+-- ======================================
+-- 🎮 ICON BẬT/TẮT MENU — CÓ THỂ DI CHUYỂN
+-- ======================================
+local ToggleGui = Instance.new("ScreenGui")
+ToggleGui.Name = "AtrasToggleIcon"
+ToggleGui.ResetOnSpawn = false
+ToggleGui.IgnoreGuiInset = true
+ToggleGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ToggleGui.DisplayOrder = 101
+ToggleGui.Parent = PlayerGui
+
+local ToggleIcon = Instance.new("ImageButton")
+ToggleIcon.Name = "ToggleIcon"
+ToggleIcon.Size = UDim2.fromOffset(44, 44)
+ToggleIcon.Position = UDim2.new(0, 15, 0.5, 100)
+ToggleIcon.BackgroundColor3 = Color3.fromRGB(5, 5, 10)
+ToggleIcon.BackgroundTransparency = 0.3
+ToggleIcon.Image = CUSTOM_LOGO
+ToggleIcon.AutoButtonColor = false
+Instance.new("UICorner", ToggleIcon).CornerRadius = UDim.new(1, 0)
+local ToggleStroke = Instance.new("UIStroke", ToggleIcon)
+ToggleStroke.Color = CurrentThemeColor
+ToggleStroke.Thickness = 2
+ToggleIcon.Parent = ToggleGui
+
+-- Kéo di chuyển icon bật/tắt
+local ToggleDragging = false
+local ToggleDragStartPos = Vector2.new()
+local ToggleStartPos = UDim2.new()
+
+ToggleIcon.InputBegan:Connect(function(Input)
+    if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
+        ToggleDragging = true
+        ToggleDragStartPos = Input.Position
+        ToggleStartPos = ToggleIcon.Position
+        Input.Changed:Connect(function()
+            if Input.UserInputState == Enum.UserInputState.End then
+                ToggleDragging = false
+            end
+        end)
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(Input)
+    if ToggleDragging and (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) then
+        local Delta = Input.Position - ToggleDragStartPos
+        ToggleIcon.Position = UDim2.new(
+            ToggleStartPos.X.Scale,
+            ToggleStartPos.X.Offset + Delta.X,
+            ToggleStartPos.Y.Scale,
+            ToggleStartPos.Y.Offset + Delta.Y
+        )
+    end
+end)
+local HttpService = game:GetService("HttpService")
 
 local DISCORD_LINK = "https://discord.gg/uqhEpzXy9q"
 local SCRIPT_LIST_URL = "https://raw.githubusercontent.com/bn130189-lgtm/Tong-hop-script/main/script.json"
@@ -15,10 +81,7 @@ local function CopyDiscord()
 end
 task.spawn(CopyDiscord)
 
--- 🖼️ Hình logo/icon của bạn
-local CUSTOM_LOGO = "rbxassetid://97608172188347"
-
--- 📱 Kích thước cơ sở
+-- 📱 Kích thước
 local ScreenSize = workspace.CurrentCamera.ViewportSize
 local IS_MOBILE = ScreenSize.X < 550 or UserInputService.TouchEnabled
 
@@ -29,14 +92,9 @@ local MAX_SIDEBAR_WIDTH = 160
 local DEFAULT_SIDEBAR_WIDTH = IS_MOBILE and 110 or 130
 local DEFAULT_SCALE = IS_MOBILE and 0.85 or 0.95
 
--- Xóa giao diện cũ
-for _, name in ipairs({"AtrasGiaBinhUI"}) do
-    local old = PlayerGui:FindFirstChild(name)
-    if old then old:Destroy() end
-end
-
-local CurrentThemeColor = Color3.fromRGB(220, 70, 85)
-
+-- ======================================
+-- 📦 GIAO DIỆN CHÍNH
+-- ======================================
 local Gui = Instance.new("ScreenGui")
 Gui.Name = "AtrasGiaBinhUI"
 Gui.ResetOnSpawn = false
@@ -55,6 +113,7 @@ Main.BackgroundTransparency = 0.55
 Main.BorderSizePixel = 0
 Main.ClipsDescendants = true
 Main.Active = true
+Main.Visible = true
 Main.Parent = Gui
 
 Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 24)
@@ -65,7 +124,7 @@ MainStroke.Thickness = 1.2
 local UIScale = Instance.new("UIScale", Main)
 UIScale.Scale = DEFAULT_SCALE
 
--- === THANH TIÊU ĐỀ — KÉO DI CHUYỂN ===
+-- === THANH TIÊU ĐỀ ===
 local TopBar = Instance.new("Frame", Main)
 TopBar.Size = UDim2.new(1, 0, 0, 52)
 TopBar.BackgroundColor3 = Color3.fromRGB(3, 3, 8)
@@ -73,7 +132,7 @@ TopBar.BackgroundTransparency = 0.6
 TopBar.ClipsDescendants = true
 TopBar.Active = true
 
--- 🖼️ Icon bên trái tiêu đề
+-- 🖼️ Logo bên trái tiêu đề
 local TitleIcon = Instance.new("ImageLabel", TopBar)
 TitleIcon.Size = UDim2.fromOffset(26, 26)
 TitleIcon.Position = UDim2.new(0, 12, 0.5, -13)
@@ -82,8 +141,8 @@ TitleIcon.Image = CUSTOM_LOGO
 Instance.new("UICorner", TitleIcon).CornerRadius = UDim.new(0, 6)
 
 local HubTitle = Instance.new("TextLabel", TopBar)
-HubTitle.Size = UDim2.new(1, -60, 1, 0)
-HubTitle.Position = UDim2.new(0, 48, 0, 0)
+HubTitle.Size = UDim2.new(1, -50, 1, 0)
+HubTitle.Position = UDim2.new(0, 44, 0, 0)
 HubTitle.BackgroundTransparency = 1
 HubTitle.Text = "ATRAS | GIABÌNH"
 HubTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -104,7 +163,7 @@ CloseBtn.Font = Enum.Font.GothamBold
 Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 8)
 
 CloseBtn.MouseButton1Click:Connect(function()
-    Gui:Destroy()
+    Main.Visible = false
 end)
 
 -- === THANH BÊN TRÁI ===
@@ -128,7 +187,7 @@ UserBox.BackgroundColor3 = Color3.fromRGB(3, 3, 8)
 UserBox.BackgroundTransparency = 0.62
 Instance.new("UICorner", UserBox).CornerRadius = UDim.new(0, 12)
 
--- 👤 Avatar game tự động lấy
+-- 👤 Avatar game
 local GameAvatar = Instance.new("ImageLabel", UserBox)
 GameAvatar.Size = UDim2.fromOffset(40, 40)
 GameAvatar.Position = UDim2.new(0, 8, 0.5, -20)
@@ -169,21 +228,6 @@ local MenuLayout = Instance.new("UIListLayout", MenuList)
 MenuLayout.Padding = UDim.new(0, 6)
 MenuLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
--- === NÚT KÉO ĐIỀU CHỈNH RỘNG MENU ===
-local ResizeHandle = Instance.new("TextButton", Main)
-ResizeHandle.Name = "ResizeHandle"
-ResizeHandle.Size = UDim2.fromOffset(8, 60)
-ResizeHandle.Position = UDim2.new(0, DEFAULT_SIDEBAR_WIDTH - 4, 0, BASE_HEIGHT/2 - 30)
-ResizeHandle.BackgroundColor3 = CurrentThemeColor
-ResizeHandle.BackgroundTransparency = 0.5
-ResizeHandle.Text = "|||"
-ResizeHandle.TextColor3 = Color3.fromRGB(255, 255, 255)
-ResizeHandle.TextSize = 9
-ResizeHandle.Font = Enum.Font.GothamBold
-ResizeHandle.AutoButtonColor = false
-ResizeHandle.ZIndex = 10
-Instance.new("UICorner", ResizeHandle).CornerRadius = UDim.new(0, 4)
-
 -- === KHU VỰC NỘI DUNG CHÍNH ===
 local PagesContainer = Instance.new("Frame", Main)
 PagesContainer.Name = "PagesContainer"
@@ -192,21 +236,34 @@ PagesContainer.Position = UDim2.new(0, DEFAULT_SIDEBAR_WIDTH, 0, 52)
 PagesContainer.BackgroundTransparency = 1
 PagesContainer.ClipsDescendants = true
 
--- Hàm cập nhật kích thước menu
+-- ⬌ NÚT KÉO ĐIỀU CHỈNH ĐỘ RỘNG MENU — GÓC DƯỚI BÊN PHẢI
+local ResizeHandle = Instance.new("TextButton", Main)
+ResizeHandle.Name = "ResizeHandle"
+ResizeHandle.Size = UDim2.fromOffset(12, 60)
+ResizeHandle.Position = UDim2.new(0, DEFAULT_SIDEBAR_WIDTH - 6, 1, -30)
+ResizeHandle.BackgroundColor3 = CurrentThemeColor
+ResizeHandle.BackgroundTransparency = 0.5
+ResizeHandle.Text = "◀▶"
+ResizeHandle.TextColor3 = Color3.fromRGB(255, 255, 255)
+ResizeHandle.TextSize = 9
+ResizeHandle.Font = Enum.Font.GothamBold
+ResizeHandle.AutoButtonColor = false
+ResizeHandle.ZIndex = 10
+Instance.new("UICorner", ResizeHandle).CornerRadius = UDim.new(0, 4)
+
+-- Hàm cập nhật độ rộng menu
 local function UpdateSidebarWidth(newWidth)
     newWidth = math.clamp(newWidth, MIN_SIDEBAR_WIDTH, MAX_SIDEBAR_WIDTH)
     SidebarContainer.Size = UDim2.fromOffset(newWidth, -52)
     PagesContainer.Size = UDim2.new(1, -newWidth, 1, -52)
     PagesContainer.Position = UDim2.new(0, newWidth, 0, 52)
-    ResizeHandle.Position = UDim2.new(0, newWidth - 4, 0, BASE_HEIGHT/2 - 30)
+    ResizeHandle.Position = UDim2.new(0, newWidth - 6, 1, -30)
     
-    -- Ẩn hiện chữ khi thu nhỏ menu
+    -- Ẩn chữ khi menu quá hẹp
     local IsNarrow = newWidth < 100
     DisplayName.Visible = not IsNarrow
     UserRole.Visible = not IsNarrow
-    for _, btn in ipairs(MenuButtons) do
-        btn.TextSize = IsNarrow and 9 or 11
-    end
+    GameAvatar.Visible = not IsNarrow
 end
 
 -- Kéo điều chỉnh độ rộng menu
@@ -228,6 +285,11 @@ UserInputService.InputEnded:Connect(function(Input)
     if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
         Resizing = false
     end
+end)
+
+-- === BẬT/TẮT MENU BẰNG ICON ===
+ToggleIcon.MouseButton1Click:Connect(function()
+    Main.Visible = not Main.Visible
 end)
 
 -- Tạo trang script
