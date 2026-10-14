@@ -69,6 +69,20 @@
       "Url": "https://id.tomroblox.com/raw/kairoblox/chilli-hub-viet-hoa-v4"
     }
   ],
+  "Break and Steal an Egg": [
+    {
+      "Name": "Panora Hub",
+      "Url": "https://raw.githubusercontent.com/CAVALEIROHAHA/panora-hub/refs/heads/main/Loader.luau"
+    },
+    {
+      "Name": "Serenity Hub",
+      "Url": "https://raw.githubusercontent.com/MUshihara/Serenity-hub/main/loader.lua"
+    },
+    {
+      "Name": "Corvus",
+      "Url": "https://raw.githubusercontent.com/vaensigma/Corvus/refs/heads/main/Loader"
+    }
+  ],
   "Ride a pets": [
     {
       "Name": "Ouroboros",
