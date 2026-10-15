@@ -87,4 +87,98 @@
       "Url": "https://raw.githubusercontent.com/vaensigma/Corvus/refs/heads/main/Loader"
     }
   ],
-  
+  "Ride a pets": [
+    {
+      "Name": "Ouroboros",
+      "Url": "https://raw.githubusercontent.com/joustingmatch/Ouroboros/main/loader.lua"
+    },
+    {
+      "Name": "Rvx hub",
+      "Url": "https://raw.githubusercontent.com/RVXv2/RVX-hub/main/main.lua"
+    },
+    {
+      "Name": "Serenity hub",
+      "Url": "https://raw.githubusercontent.com/MUshihara/Serenity-hub/main/loader.lua"
+    },
+    {
+      "Name": "Fyy",
+      "Url": "https://FyyCommunity.my.id"
+    },
+    {
+      "Name": "Mystrix hub",
+      "Url": "https://raw.githubusercontent.com/ummarxfarooq/mystrix-hub/refs/heads/main/loader"
+    },
+    {
+      "Name": "Luxury hub",
+      "Url": "https://raw.githubusercontent.com/LostInSyntaxx/RideAPet/main/loader.lua"
+    },
+    {
+      "Name": "Roxy hub",
+      "Url": "https://rawscripts.net/raw/Ride-A-Pet-RoxyHub-Ride-A-p_et-Auto-farmAuto-RebirthMore-No-key-228621"
+    },
+    {
+      "Name": "Yanz hub",
+      "Url": "https://rawscripts.net/raw/Ride-A-Pet-YANZ-HUB-229757"
+    },
+    {
+      "Name": "Bleh",
+      "Url": "https://raw.githubusercontent.com/BlehHub/blehhh/refs/heads/main/lol"
+    },
+    {
+      "Name": "Mario hub",
+      "Url": "https://raw.githubusercontent.com/xDTaraZz/Roblox-Scripts/refs/heads/main/loader.lua"
+    }
+  ],
+  "Blox Fruit": [
+    {
+      "Name": "Blox fruit updated 30",
+      "Url": "https://isnahamzah.site/SubscribeYTisnahamzah/gantenghub30"
+    },
+    {
+      "Name": "Bacon hub",
+      "Url": "https://raw.githubusercontent.com/Dev-BaconHub/hack/refs/heads/main/Bloxfruits.lua"
+    },
+    {
+      "Name": "Lavz hub",
+      "Url": "https://raw.githubusercontent.com/bloxfruitsnokey/Redz-Hub/refs/heads/main/Lavz/script.luau"
+    },
+    {
+      "Name": "Db hub",
+      "Url": "https://raw.githubusercontent.com/bloxfruitsnokey/Banana/refs/heads/main/DB/script.luau"
+    },
+    {
+      "Name": "Ducz hub",
+      "Url": "https://raw.githubusercontent.com/duczsitink/DUCKHUB/refs/heads/main/main.lua"
+    }
+  ],
+  "MM2": [
+    {
+      "Name": "Waguri",
+      "Url": "https://raw.githubusercontent.com/Waguriiiii/Murder-mystery-2/refs/heads/main/Waguri.lua"
+    },
+    {
+      "Name": "Ony",
+      "Url": "https://onyxscripts.xyz"
+    },
+    {
+      "Name": "Yukio",
+      "Url": "https://raw.githubusercontent.com/universal-roblox/Mm2/refs/heads/main/Murder-Mystery-2.lua"
+    },
+    {
+      "Name": "Thunderhub",
+      "Url": "https://raw.githubusercontent.com/kittenpalms/Honey/refs/heads/main/MM2"
+    },
+    {
+      "Name": "Yarhm",
+      "Url": "https://cdn.sourceb.in/bins/KccYIxAUCT/0"
+    },
+    {
+      "Name": "Pulse",
+      "Url": "https://raw.githubusercontent.com/PulseZax/Loader/refs/heads/main/.lua"
+    },
+    {
+      "Name": "Star hub",
+      "Url": "https://star-scripts.com/api/run/PWKHJrUboXehq0qS4c28ajkjAx6t7D4U"
+    }
+  ]
+}
