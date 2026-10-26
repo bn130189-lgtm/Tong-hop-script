@@ -79,6 +79,10 @@
     {
       "Name": "chilli v7 nokey",
       "Url": "https://raw.githubusercontent.com/kadit9999/stealanegg/refs/heads/main/ChilliV5BaKhi.lua"
+    },
+    {
+      "Name": "codium",
+      "Url": "https://getcodium.xyz/loader.luau"
     }
   ],
   "Break and Steal an Egg": [
