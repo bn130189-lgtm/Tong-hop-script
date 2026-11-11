@@ -70,7 +70,7 @@
     },
     {
       "Name": "Figgy",
-      "Url": "https://raw.githubusercontent.com/napun87/stealaneggv2/refs/heads/main/figfy.lua"
+      "Url": "loadstring(game:HttpGet("https://raw.githubusercontent.com/Figgyscript/Figgy/main/Figgyhub"))()"
     },
     {
       "Name": "codium",
