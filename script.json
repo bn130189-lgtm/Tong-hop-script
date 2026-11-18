@@ -188,5 +188,15 @@
       "Name": "Star hub",
       "Url": "https://star-scripts.com/api/run/PWKHJrUboXehq0qS4c28ajkjAx6t7D4U"
     }
+  ],
+  "Throw food for animals": [
+    {
+      "Name": "Slime hub",
+      "Url": "https://raw.githubusercontent.com/SlimexDev/LoaderScript/refs/heads/main/LoaderScript.lua"
+    },
+    {
+      "Name": "Mystrix hub",
+      "Url": "https://raw.githubusercontent.com/ummarxfarooq/mystrix-hub/refs/heads/main/loader"
+    }
   ]
 }
