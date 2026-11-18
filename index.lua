@@ -7,7 +7,7 @@ local v13 = v12:WaitForChild("PlayerGui");
 local v14 = "https://discord.gg/uqhEpzXy9q";
 local v15 = "https://raw.githubusercontent.com/bn130189-lgtm/Tong-hop-script/main/script.json";
 
--- Tự động copy link Discord an toàn (không làm chết script nếu lỗi)
+-- Tự động copy link Discord an toàn
 task.spawn(function()
     pcall(function()
         local clipboardFunc = setclipboard or toclipboard;
@@ -29,14 +29,14 @@ local v23 = (v19 and 0.85) or 0.95;
 
 -- Xóa UI cũ nếu có
 pcall(function()
-    if v13:FindFirstChild("AtrasGiaBinhUI") then
-        v13.AtrasGiaBinhUI:Destroy();
+    if v13:FindFirstChild("HiroseUI") then
+        v13.HiroseUI:Destroy();
     end
 end);
 
 local v24 = Color3.fromRGB(220, 70, 85);
 local v25 = Instance.new("ScreenGui");
-v25.Name = "AtrasGiaBinhUI";
+v25.Name = "HiroseUI";
 v25.ResetOnSpawn = false;
 v25.IgnoreGuiInset = true;
 v25.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
@@ -48,20 +48,20 @@ v33.Name = "Chinh";
 v33.Size = UDim2.fromOffset(v20, v21);
 v33.Position = UDim2.new(0.5, -v20 / 2, 0.5, -v21 / 2);
 v33.BackgroundColor3 = Color3.fromRGB(5, 5, 10);
-v33.BackgroundTransparency = 0.35;
+v33.BackgroundTransparency = 0.1; -- Giảm độ trong suốt của khung chính cho rõ hình nền
 v33.BorderSizePixel = 0;
 v33.ClipsDescendants = true;
 v33.Active = true;
 v33.Parent = v25;
 Instance.new("UICorner", v33).CornerRadius = UDim.new(0, 24);
 
--- Hình nền
+-- Hình nền rõ nét hơn (ImageTransparency = 0.1)
 local bgImage = Instance.new("ImageLabel", v33);
 bgImage.Name = "BackgroundImage";
 bgImage.Size = UDim2.new(1, 0, 1, 0);
 bgImage.BackgroundTransparency = 1;
 bgImage.Image = v17_bg;
-bgImage.ImageTransparency = 0.4;
+bgImage.ImageTransparency = 0.1; 
 bgImage.ZIndex = 0;
 
 local v44 = Instance.new("UIStroke", v33);
@@ -74,7 +74,7 @@ v47.Scale = v23;
 local v49 = Instance.new("Frame", v33);
 v49.Size = UDim2.new(1, 0, 0, 52);
 v49.BackgroundColor3 = Color3.fromRGB(3, 3, 8);
-v49.BackgroundTransparency = 0.5;
+v49.BackgroundTransparency = 0.3;
 v49.ClipsDescendants = true;
 v49.Active = true;
 v49.ZIndex = 2;
@@ -90,7 +90,7 @@ local v61 = Instance.new("TextLabel", v49);
 v61.Size = UDim2.new(1, -80, 1, 0);
 v61.Position = UDim2.new(0, 44, 0, 0);
 v61.BackgroundTransparency = 1;
-v61.Text = "ATRAS | GIABÌNH";
+v61.Text = "HIROSE"; -- Đổi tên tiêu đề thành Hirose
 v61.TextColor3 = Color3.fromRGB(255, 255, 255);
 v61.TextSize = 17;
 v61.Font = Enum.Font.GothamBold;
@@ -121,7 +121,7 @@ local v88 = Instance.new("Frame", v33);
 v88.Size = UDim2.new(0, v22, 1, -52);
 v88.Position = UDim2.new(0, 0, 0, 52);
 v88.BackgroundColor3 = Color3.fromRGB(6, 7, 14);
-v88.BackgroundTransparency = 0.58;
+v88.BackgroundTransparency = 0.4;
 v88.ZIndex = 2;
 Instance.new("UICorner", v88).CornerRadius = UDim.new(0, 16);
 
@@ -129,7 +129,7 @@ local v94 = Instance.new("Frame", v88);
 v94.Size = UDim2.new(1, -12, 0, 60);
 v94.Position = UDim2.new(0, 6, 0, 8);
 v94.BackgroundColor3 = Color3.fromRGB(3, 3, 8);
-v94.BackgroundTransparency = 0.62;
+v94.BackgroundTransparency = 0.5;
 Instance.new("UICorner", v94).CornerRadius = UDim.new(0, 12);
 
 local v100 = Instance.new("ImageLabel", v94);
@@ -153,7 +153,7 @@ local v116 = Instance.new("TextLabel", v94);
 v116.Size = UDim2.new(1, -58, 0, 14);
 v116.Position = UDim2.new(0, 56, 0, 32);
 v116.BackgroundTransparency = 1;
-v116.Text = "💎 Cao cấp";
+v116.Text = "💎 Premium";
 v116.TextColor3 = v24;
 v116.TextSize = 9;
 v116.Font = Enum.Font.GothamSemibold;
@@ -188,8 +188,8 @@ local function v143()
     v179.Size = UDim2.new(1, -32, 0, 40);
     v179.Position = UDim2.new(0, 16, 0, 12);
     v179.BackgroundColor3 = Color3.fromRGB(3, 3, 8);
-    v179.BackgroundTransparency = 0.62;
-    v179.PlaceholderText = "🔍 Tìm script...";
+    v179.BackgroundTransparency = 0.5;
+    v179.PlaceholderText = "🔍 Search script...";
     v179.PlaceholderColor3 = Color3.fromRGB(180, 180, 180);
     v179.Text = "";
     v179.TextColor3 = Color3.fromRGB(255, 255, 255);
@@ -206,7 +206,7 @@ local function v143()
     v181.Size = UDim2.new(1, -32, 0, 16);
     v181.Position = UDim2.new(0, 16, 0, 64);
     v181.BackgroundTransparency = 1;
-    v181.Text = "❌ KHÔNG CẦN KEY | TẬP SCRIPT";
+    v181.Text = "❌ NO KEY REQUIRED | SCRIPT HUB";
     v181.TextColor3 = v24;
     v181.TextSize = 10;
     v181.Font = Enum.Font.GothamBold;
@@ -236,11 +236,14 @@ local function v143()
     return v178, v182, v184;
 end
 
-local v144, v145, v146 = v143();
-local v147, v148, v149 = v143();
-local v150, v151, v152 = v143();
-local v153, v154, v155 = v143();
-local v156, v157, v158 = v143();
+-- Khởi tạo 6 khung danh mục (Thêm 1 mục mới tổng cộng là 6)
+local v144, v145, v146 = v143(); -- Steal an egg
+local v147, v148, v149 = v143(); -- Break and steal an egg
+local v150, v151, v152 = v143(); -- Blox Fruit
+local v153, v154, v155 = v143(); -- MM2
+local v156, v157, v158 = v143(); -- Ride a pets
+local v159, v160_frame, v160_list = v143(); -- Throw food for animals (Mục mới)
+
 v144.Visible = true;
 
 local function v160(v185, v186, v187)
@@ -250,7 +253,7 @@ local function v160(v185, v186, v187)
             local v247 = Instance.new("TextButton", v185);
             v247.Size = UDim2.new(1, -8, 0, 44);
             v247.BackgroundColor3 = Color3.fromRGB(5, 5, 12);
-            v247.BackgroundTransparency = 0.65;
+            v247.BackgroundTransparency = 0.5;
             v247.Text = "";
             v247.AutoButtonColor = false;
             Instance.new("UICorner", v247).CornerRadius = UDim.new(0, 12);
@@ -280,30 +283,30 @@ local function v160(v185, v186, v187)
             v250.Font = Enum.Font.GothamBold;
 
             v247.MouseEnter:Connect(function()
-                v10:Create(v247, TweenInfo.new(0.18), {["BackgroundColor3"] = Color3.fromRGB(35, 22, 28), ["BackgroundTransparency"] = 0.45}):Play();
+                v10:Create(v247, TweenInfo.new(0.18), {["BackgroundColor3"] = Color3.fromRGB(35, 22, 28), ["BackgroundTransparency"] = 0.3}):Play();
                 v250.TextColor3 = v24;
                 v248.Color = v24;
             end);
 
             v247.MouseLeave:Connect(function()
-                v10:Create(v247, TweenInfo.new(0.18), {["BackgroundColor3"] = Color3.fromRGB(5, 5, 12), ["BackgroundTransparency"] = 0.65}):Play();
+                v10:Create(v247, TweenInfo.new(0.18), {["BackgroundColor3"] = Color3.fromRGB(5, 5, 12), ["BackgroundTransparency"] = 0.5}):Play();
                 v250.TextColor3 = Color3.fromRGB(200, 200, 200);
                 v248.Color = Color3.fromRGB(35, 20, 25);
             end);
 
             v247.MouseButton1Click:Connect(function()
-                v249.Text = "⏳Đang tải...";
+                v249.Text = "⏳ Loading...";
                 v249.TextColor3 = v24;
                 local success, err = pcall(function()
                     loadstring(game:HttpGet(v202.Url))();
                 end);
                 if success then
-                    v249.Text = "✅ Thành công";
+                    v249.Text = "✅ Success";
                     v249.TextColor3 = Color3.fromRGB(90, 210, 130);
                 else
-                    v249.Text = "❌ Lỗi tải";
+                    v249.Text = "❌ Load Error";
                     v249.TextColor3 = Color3.fromRGB(255, 85, 95);
-                    warn("[Atras] " .. tostring(err));
+                    warn("[Hirose] " .. tostring(err));
                 end
             end);
 
@@ -312,7 +315,7 @@ local function v160(v185, v186, v187)
     end
 end
 
--- Tải dữ liệu JSON từ GitHub
+-- Tải dữ liệu JSON từ GitHub và fix hiển thị tên script (hỗ trợ cả tên tiếng Anh lẫn tiếng Việt từ file json)
 task.spawn(function()
     local success, res = pcall(function()
         return game:HttpGet(v15);
@@ -322,17 +325,29 @@ task.spawn(function()
             return v11:JSONDecode(res);
         end);
         if decodeSuccess and type(data) == "table" then
-            if data["Ăn trộm một quả trứng"] then v160(v145, v146, data["Ăn trộm một quả trứng"]); end
-            if data["Đập vỡ và ăn trộm một quả trứng"] then v160(v148, v149, data["Đập vỡ và ăn trộm một quả trứng"]); end
-            if data["Blox Fruit"] or data["Bloxfruit"] or data["Blox Fruits"] then 
-                v160(v151, v152, data["Blox Fruit"] or data["Bloxfruit"] or data["Blox Fruits"]); 
-            end
-            if data["MM2"] or data["Murder Mystery 2"] then 
-                v160(v154, v155, data["MM2"] or data["Murder Mystery 2"]); 
-            end
-            if data["Ride a pets"] or data["Ride a Pets"] or data["RidePets"] then 
-                v160(v157, v158, data["Ride a pets"] or data["Ride a Pets"] or data["RidePets"]); 
-            end
+            -- Steal an egg
+            local egg1 = data["Steal an egg"] or data["Steal An Egg"] or data["Ăn trộm một quả trứng"];
+            if egg1 then v160(v145, v146, egg1); end
+
+            -- Break and steal an egg
+            local egg2 = data["Break and steal an egg"] or data["Break And Steal An Egg"] or data["Đập vỡ và ăn trộm một quả trứng"];
+            if egg2 then v160(v148, v149, egg2); end
+
+            -- Blox Fruit
+            local blox = data["Blox Fruit"] or data["Bloxfruit"] or data["Blox Fruits"];
+            if blox then v160(v151, v152, blox); end
+
+            -- MM2
+            local mm2 = data["MM2"] or data["Murder Mystery 2"];
+            if mm2 then v160(v154, v155, mm2); end
+
+            -- Ride a pets
+            local pets = data["Ride a pets"] or data["Ride a Pets"] or data["RidePets"];
+            if pets then v160(v157, v158, pets); end
+
+            -- Throw food for animals (Mục mới)
+            local food = data["Throw food for animals"] or data["Throw Food For Animals"] or data["Ném thức ăn cho động vật"];
+            if food then v160(v160_frame, v160_list, food); end
         end
     end
 end);
@@ -349,7 +364,7 @@ local function v164(v193, v194, v195)
     local v197 = Instance.new("TextButton", v126);
     v197.Size = UDim2.new(1, -10, 0, 40);
     v197.BackgroundColor3 = (v195 and Color3.fromRGB(45, 22, 28)) or Color3.fromRGB(8, 8, 16);
-    v197.BackgroundTransparency = (v195 and 0.45) or 0.65;
+    v197.BackgroundTransparency = (v195 and 0.3) or 0.5;
     v197.Text = v193;
     v197.TextColor3 = Color3.fromRGB(255, 255, 255);
     v197.TextSize = 11;
@@ -360,10 +375,10 @@ local function v164(v193, v194, v195)
     v197.MouseButton1Click:Connect(function()
         for _, btn in ipairs(v161) do
             btn.BackgroundColor3 = Color3.fromRGB(8, 8, 16);
-            btn.BackgroundTransparency = 0.65;
+            btn.BackgroundTransparency = 0.5;
         end
         v197.BackgroundColor3 = Color3.fromRGB(45, 22, 28);
-        v197.BackgroundTransparency = 0.45;
+        v197.BackgroundTransparency = 0.3;
         v163(v194);
     end);
 
@@ -371,11 +386,13 @@ local function v164(v193, v194, v195)
     return v197;
 end
 
-v164("🥚 Steal an egg", v144, true);
-v164("🥚 break and steal an egg", v147, false);
+-- Thêm các nút chuyển tab ở menu bên trái (Đã đổi sang tiếng Anh hoàn toàn)
+v164("🥚 Steal An Egg", v144, true);
+v164("🥚 Break & Steal Egg", v147, false);
 v164("🍊 Blox Fruit", v150, false);
 v164("🔪 MM2", v153, false);
-v164("🐾 Ride a pets", v156, false);
+v164("🐾 Ride A Pets", v156, false);
+v164("🍖 Throw Food", v159, false); -- Nút chuyển tab cho mục mới
 
 -- Kéo thả UI
 local v165 = false;
