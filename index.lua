@@ -371,11 +371,11 @@ local function v164(v193, v194, v195)
     return v197;
 end
 
-v164("🥚 Trộm Trứng", v144, true);
-v164("🥚 Phá vỡ và ăn trộm trứng", v147, false);
+v164("🥚 Steal an egg", v144, true);
+v164("🥚 break and steal an egg", v147, false);
 v164("🍊 Blox Fruit", v150, false);
 v164("🔪 MM2", v153, false);
-v164("🐾 Cưỡi thú cưng", v156, false);
+v164("🐾 Ride a pets", v156, false);
 
 -- Kéo thả UI
 local v165 = false;
