@@ -65,7 +65,7 @@
       "Url": "https://raw.githubusercontent.com/nguyengiabinh20111-debug/Steal-an-egg-/main/Giabinh.lua"
     },
     {
-      "Name": "Chilli V11",
+      "Name": "Chilli V13",
       "Url": "https://raw.githubusercontent.com/nguyengiabinh20111-debug/Gbinh/main/Giabinh.lua"
     },
     {
@@ -157,6 +157,10 @@
     {
       "Name": "Ducz hub",
       "Url": "https://raw.githubusercontent.com/duczsitink/DUCKHUB/refs/heads/main/main.lua"
+    },
+    {
+      "Name": "Night hub",
+      "Url": "https://raw.githubusercontent.com/kazzzmo/nani/refs/heads/main/NightMainBF.lua"
     }
   ],
   "MM2": [
